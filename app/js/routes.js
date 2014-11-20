@@ -3,6 +3,14 @@
 angular.module('myApp.routes', ['ngRoute', 'simpleLogin'])
 
   .constant('ROUTES', {
+    '/roots': {
+      templateUrl: 'partials/socialnetworkregistration.html',
+      controller: 'SocialNetworkRegCtrl'
+    },
+    '/breeding': {
+      templateUrl: 'partials/likebreeding.html',
+      controller: 'LikeBreeding'
+    },
     '/home': {
       templateUrl: 'partials/home.html',
       controller: 'HomeCtrl',
@@ -72,7 +80,7 @@ angular.module('myApp.routes', ['ngRoute', 'simpleLogin'])
       }
     });
     // routes which are not in our map are redirected to /home
-    $routeProvider.otherwise({redirectTo: '/home'});
+    $routeProvider.otherwise({redirectTo: '/roots'});
   }])
 
   /**

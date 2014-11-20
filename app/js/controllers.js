@@ -3,6 +3,84 @@
 /* Controllers */
 
 angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
+
+  .controller('SocialNetworkRegCtrl',
+      ['$scope', '$http', '$location', 'networkUserHandles', 'NETNAME',
+      function($scope, $http, $location, networkUserHandles, NETNAME){
+
+    $scope.formData = {};  // as recommended in http://stackoverflow.com/a/22768720/169858
+    $scope.saveUserHandles = function() {
+
+      if( $scope.formData.tumblr ) {
+        $scope.formData.tumblr.split(",").forEach(function(name, index, array){
+          networkUserHandles.addNetworkUser( NETNAME.TUMBLR, name.trim() );
+        });
+      }
+
+      if( $scope.formData.weheartit ) {
+        $scope.formData.weheartit.split(",").forEach(function(name, index, array){
+          networkUserHandles.addNetworkUser( NETNAME.WEHEARTIT, name.trim() );
+        });
+      }
+
+      if( $scope.formData.soundcloud ) {
+        $scope.formData.soundcloud.split(",").forEach(function(name, index, array){
+          networkUserHandles.addNetworkUser( NETNAME.SOUNDCLOUD, name.trim() );
+        });
+      }
+
+      $location.path( "/breeding" );
+    }
+  }])
+
+  .controller('LikeBreeding',
+      ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'NETNAME',
+      function($scope, $http, networkUserHandles, mediaItemHarvester, NETNAME){
+
+    $scope.allMediaItems = [];
+    $scope.selectedMediaItems = [];
+
+    $scope.selectRandomItems = function( numberOfItems ) {
+      $scope.selectedMediaItems = [];
+      var usedIndexes = [];
+      for( var i=0; i < numberOfItems; i++ ) {
+        var oneItemIndex;
+        do {
+          oneItemIndex = randomFromInterval( 0, $scope.allMediaItems.length-1 );
+        } while( usedIndexes.indexOf(oneItemIndex) > -1 );
+        usedIndexes.push( oneItemIndex );
+        $scope.selectedMediaItems.push( $scope.allMediaItems[oneItemIndex] );
+      }
+    }
+
+    networkUserHandles.getAllNetworkUserHandles().forEach(function(handle, index, array){
+      // console.log( handle.network + ': ' + handle.user );
+
+      if( handle.network == NETNAME.TUMBLR ) {
+
+        mediaItemHarvester.getMediaItemsFromTumblrAccount(handle.user, $scope.allMediaItems);
+      }
+    });
+
+    // when items come in from an api call, we want to make selection to display
+    $scope.$watchCollection( "allMediaItems", function( newValue, oldValue ){
+
+      if( newValue.length ) {
+
+        $scope.selectRandomItems( newValue.length >= 10 ? 10 : newValue.length );
+      }
+    });
+
+    // TODO: in a utility service?
+    function randomFromInterval(from,to) {
+        return Math.floor(Math.random()*(to-from+1)+from);
+    }
+  }])
+
+
+
+  // Defualt example controllers - ToDelete :P
+
   .controller('HomeCtrl', ['$scope', 'fbutil', 'user', 'FBURL', function($scope, fbutil, user, FBURL) {
     $scope.syncedValue = fbutil.syncObject('syncedValue');
     $scope.user = user;
