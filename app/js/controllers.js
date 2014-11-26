@@ -52,8 +52,10 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
         $scope.selectedMediaItems.push( $scope.allMediaItems[oneItemIndex] );
 		for(var j=0; j < $scope.allMediaItems[oneItemIndex].tags.length; j++)
 		{
-			if(combinedTags.hasOwnProperty($scope.allMediaItems[oneItemIndex].tags[j]))
-			combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]=true;
+			if(!combinedTags.hasOwnProperty($scope.allMediaItems[oneItemIndex].tags[j]))
+				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]=1;
+			else
+				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]+=1;
 		}
       }
 	  console.log(combinedTags);
