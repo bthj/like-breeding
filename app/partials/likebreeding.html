@@ -5,7 +5,7 @@
 </div>
 <br>
 
-<div ng-repeat="oneItem in selectedMediaItems" style="float:left;">
+<div ng-repeat="oneItem in selectedMediaItems" class="breedpic">
   <img ng_src="{{oneItem.mediaUrl}}">
   <br>
   tags: <em><span ng-repeat="tag in oneItem.tags">{{tag}},</span></em>

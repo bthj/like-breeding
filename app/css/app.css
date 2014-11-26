@@ -68,3 +68,14 @@ fieldset {
 [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
     display: none !important;
 }
+
+.breedpic
+{
+	max-height:500px;
+	width:24%;
+	display:inline-block;
+}
+.breedpic img
+{
+	max-width:99%;
+}

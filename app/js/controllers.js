@@ -36,7 +36,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
   .controller('LikeBreeding',
       ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'NETNAME',
       function($scope, $http, networkUserHandles, mediaItemHarvester, NETNAME){
-
+	var combinedTags = {};
     $scope.allMediaItems = [];
     $scope.selectedMediaItems = [];
 
@@ -50,9 +50,15 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
         } while( usedIndexes.indexOf(oneItemIndex) > -1 );
         usedIndexes.push( oneItemIndex );
         $scope.selectedMediaItems.push( $scope.allMediaItems[oneItemIndex] );
+		for(var j=0; j < $scope.allMediaItems[oneItemIndex].tags.length; j++)
+		{
+			if(combinedTags.hasOwnProperty($scope.allMediaItems[oneItemIndex].tags[j]))
+			combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]=true;
+		}
       }
+	  console.log(combinedTags);
     }
-
+	
     networkUserHandles.getAllNetworkUserHandles().forEach(function(handle, index, array){
       // console.log( handle.network + ': ' + handle.user );
 

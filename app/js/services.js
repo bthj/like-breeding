@@ -50,7 +50,7 @@
         function getMediaItemsFromTumblrAccount( username, mediaItems ) {
 
           getPostsFromTumblrAccount( username, mediaItems );
-
+		  
           getLikesFromTumblrAccount( username, mediaItems )
         }
 
@@ -73,7 +73,7 @@
 
                 var oneMediaItem = {
                   "type": post.type,
-                  "mediaUrl": post.photos[0].alt_sizes[3].url,
+                  "mediaUrl": post.photos[0].alt_sizes[0].url, //0 works alright as an index
                   "tags": post.tags,
                   "sourceUrl": post.post_url
                 };
@@ -102,10 +102,13 @@
 
                 var oneMediaItem = {
                   "type": post.type,
-                  "mediaUrl": post.photos[0].alt_sizes[3].url,
+                  "mediaUrl": post.photos[0].alt_sizes[0].url, //0 works alright as an index
                   "tags": post.tags,
                   "sourceUrl": post.post_url
                 };
+				//TODO: Perhaps we should drop a post if it doesn't have tags.
+				//Otherwise it is useless for evolution. Unless we can use Google's
+				//new image recognition(fat chance in hell).
                 mediaItems.push( oneMediaItem );
               }
             });
