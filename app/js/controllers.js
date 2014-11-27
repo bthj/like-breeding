@@ -36,18 +36,18 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
   .controller('LikeBreeding',
       ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'NETNAME',
       function($scope, $http, networkUserHandles, mediaItemHarvester, NETNAME){
-	var combinedTags = {};
     $scope.allMediaItems = [];
     $scope.selectedMediaItems = [];
 
     $scope.selectRandomItems = function( numberOfItems ) {
+	  var combinedTags = {};
       $scope.selectedMediaItems = [];
       var usedIndexes = [];
       for( var i=0; i < numberOfItems; i++ ) {
         var oneItemIndex;
         do {
           oneItemIndex = randomFromInterval( 0, $scope.allMediaItems.length-1 );
-        } while( usedIndexes.indexOf(oneItemIndex) > -1 );
+        } while( usedIndexes.indexOf(oneItemIndex) > -1); // || $scope.allMediaItems[oneItemIndex].tags.length==0
         usedIndexes.push( oneItemIndex );
         $scope.selectedMediaItems.push( $scope.allMediaItems[oneItemIndex] );
 		for(var j=0; j < $scope.allMediaItems[oneItemIndex].tags.length; j++)
@@ -75,7 +75,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
       if( newValue.length ) {
 
-        $scope.selectRandomItems( newValue.length >= 10 ? 10 : newValue.length );
+        $scope.selectRandomItems( newValue.length >= 4 ? 4 : newValue.length );
       }
     });
 

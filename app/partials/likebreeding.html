@@ -5,8 +5,17 @@
 </div>
 <br>
 
-<div ng-repeat="oneItem in selectedMediaItems" class="breedpic">
+<div ng-repeat="oneItem in selectedMediaItems" ng-class="{selected: clicked, sortofselected: sortofclicked}" class="breedpic">
+  <div style="margin:auto">
   <img ng_src="{{oneItem.mediaUrl}}">
-  <br>
+  <br />
   tags: <em><span ng-repeat="tag in oneItem.tags">{{tag}},</span></em>
+  <br />
+  <button class='holdbutton' ng-click="clicked = !clicked;sortofclicked=false;">
+	Hold Image
+  </button>
+  <button class='holdbutton' ng-click="sortofclicked = !sortofclicked;clicked=false;">
+	Sort of Hold
+  </button>
+  </div>
 </div>
