@@ -72,15 +72,15 @@
               console.log( data.response );
               data.response.liked_posts.forEach(function(post, index, array){
 
-                if( post.type == "photo" && post.tags.length ) {
+                if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
 
                   var oneMediaItem = {
                     "type": post.type,
                     "mediaUrl": post.photos[0].alt_sizes[0].url, //0 works alright as an index
                     "tags": post.tags,
-                    "sourceUrl": post.post_url
+                    "sourceUrl": post.post_url // won't really need this here, as it's now they key, but might be handy
                   };
-                  mediaItems.push( oneMediaItem );
+                  mediaItems[post.post_url] = oneMediaItem;
                 }
               });
               initiateNextPageRequest(
@@ -103,7 +103,7 @@
               console.log( data.response );
               data.response.posts.forEach(function(post, index, array){
 
-                if( post.type == "photo" && post.tags.length ) {
+                if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
 
                   var oneMediaItem = {
                     "type": post.type,
@@ -111,7 +111,7 @@
                     "tags": post.tags,
                     "sourceUrl": post.post_url
                   };
-                  mediaItems.push( oneMediaItem );
+                  mediaItems[post.post_url] = oneMediaItem;
                 }
               });
               initiateNextPageRequest(
@@ -136,7 +136,7 @@
             }, waitTimeBetweenRequests);
           } else {
             console.log( "Finished paging through " + callback.name +
-              " and the current total of harvested media items is: " + mediaItems.length );
+              " and the current total of harvested media items is: " + Object.keys(mediaItems).length );
           }
         }
 

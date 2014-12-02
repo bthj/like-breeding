@@ -36,31 +36,34 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
   .controller('LikeBreeding',
       ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'NETNAME',
       function($scope, $http, networkUserHandles, mediaItemHarvester, NETNAME){
-    $scope.allMediaItems = [];
+    $scope.allMediaItems = {};
     $scope.selectedMediaItems = [];
 
     var totalVisibleItems = 4;
 
     $scope.selectRandomItems = function( numberOfItems ) {
-	  var combinedTags = {};
+	    var combinedTags = {};
       $scope.selectedMediaItems = [];
+
       var usedIndexes = [];
       for( var i=0; i < numberOfItems; i++ ) {
         var oneItemIndex;
         do {
-          oneItemIndex = randomFromInterval( 0, $scope.allMediaItems.length-1 );
+          oneItemIndex = randomFromInterval( 0, Object.keys($scope.allMediaItems).length-1 );
         } while( usedIndexes.indexOf(oneItemIndex) > -1); // || $scope.allMediaItems[oneItemIndex].tags.length==0
         usedIndexes.push( oneItemIndex );
 
-        $scope.selectedMediaItems.push( $scope.allMediaItems[oneItemIndex] );
+        var oneItem = $scope.allMediaItems[Object.keys($scope.allMediaItems)[oneItemIndex]];
+
+        $scope.selectedMediaItems.push( oneItem );
 
 
-    		for(var j=0; j < $scope.allMediaItems[oneItemIndex].tags.length; j++)
+    		for(var j=0; j < oneItem.tags.length; j++)
     		{
-    			if(!combinedTags.hasOwnProperty($scope.allMediaItems[oneItemIndex].tags[j]))
-    				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]=1;
+    			if(!combinedTags.hasOwnProperty(oneItem.tags[j]))
+    				combinedTags[oneItem.tags[j]]=1;
     			else
-    				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]+=1;
+    				combinedTags[oneItem.tags[j]]+=1;
     		}
       }
       console.log(combinedTags);
@@ -76,13 +79,15 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     });
 
     // when items come in from an api call, we want to make selection to display
-    $scope.$watchCollection( "allMediaItems", function( newValue, oldValue ){
+    $scope.$watchCollection( "allMediaItems", function( newValue, oldValue ) {
+      var newValuePropCount = Object.keys(newValue).length;
 
-      if( newValue.length > totalVisibleItems && $scope.selectedMediaItems.length < totalVisibleItems ) {
-        // from this $watchCollection thing, we'll only once call selectRandomItems
+      if( newValuePropCount > totalVisibleItems &&
+            $scope.selectedMediaItems.length < totalVisibleItems ) {
+        // from this $watchCollection thing, we'll only *once* call selectRandomItems
         // when the above critera is met.
         $scope.selectRandomItems(
-          newValue.length >= totalVisibleItems ? totalVisibleItems : newValue.length );
+          newValuePropCount >= totalVisibleItems ? totalVisibleItems : newValuePropCount );
       }
     });
 
