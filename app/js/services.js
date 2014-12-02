@@ -68,11 +68,11 @@
             +tumblrAPIkey
             +tumblrAfterApiKey )
             .success(function(data) {
-              // TODO: loop until data.response.liked_count
+
               console.log( data.response );
               data.response.liked_posts.forEach(function(post, index, array){
 
-                if( post.type == "photo" ) {
+                if( post.type == "photo" && post.tags.length ) {
 
                   var oneMediaItem = {
                     "type": post.type,
@@ -99,11 +99,11 @@
             +tumblrAPIkey
             +tumblrAfterApiKey )
             .success(function(data) {
-              // TODO: loop until data.response.total_posts
+
               console.log( data.response );
               data.response.posts.forEach(function(post, index, array){
 
-                if( post.type == "photo" ) {
+                if( post.type == "photo" && post.tags.length ) {
 
                   var oneMediaItem = {
                     "type": post.type,
@@ -111,9 +111,6 @@
                     "tags": post.tags,
                     "sourceUrl": post.post_url
                   };
-  				//TODO: Perhaps we should drop a post if it doesn't have tags.
-  				//Otherwise it is useless for evolution. Unless we can use Google's
-  				//new image recognition(fat chance in hell).
                   mediaItems.push( oneMediaItem );
                 }
               });
@@ -128,7 +125,7 @@
 
           var newOffset = currentOffset + limit;
 
-          console.log("newOffset: " + newOffset + ", totalItems: " + totalItems);
+          console.log("newOffset: " + newOffset + ", totalItems: " + totalItems + ", for: " + callback.name);
 
           if( newOffset < totalItems ) {
 
