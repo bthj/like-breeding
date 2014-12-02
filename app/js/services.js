@@ -43,7 +43,9 @@
         var tumblrAfterUser = ".tumblr.com";
         var tumblrPosts = "/posts/photo";
         var tumblrLikes = "/likes";
-        var tumblrBeforeApiKey = "?api_key="
+        var tumblrBeforeLimit = "?limit=";
+        var tumblrBeforeOffset = "&offset=";
+        var tumblrBeforeApiKey = "&api_key="
         var tumblrAfterApiKey = "&callback=JSON_CALLBACK";
 
         var limit = 20;
@@ -64,6 +66,10 @@
             +username
             +tumblrAfterUser
             +tumblrLikes
+            +tumblrBeforeLimit
+            +limit
+            +tumblrBeforeOffset
+            +offset
             +tumblrBeforeApiKey
             +tumblrAPIkey
             +tumblrAfterApiKey )
@@ -72,7 +78,7 @@
               console.log( data.response );
               data.response.liked_posts.forEach(function(post, index, array){
 
-                if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
+              if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
 
                   var oneMediaItem = {
                     "type": post.type,
@@ -95,6 +101,10 @@
             +username
             +tumblrAfterUser
             +tumblrPosts
+            +tumblrBeforeLimit
+            +limit
+            +tumblrBeforeOffset
+            +offset
             +tumblrBeforeApiKey
             +tumblrAPIkey
             +tumblrAfterApiKey )
@@ -103,7 +113,7 @@
               console.log( data.response );
               data.response.posts.forEach(function(post, index, array){
 
-                if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
+              if( post.type == "photo" && post.tags.length /*&& !mediaItems[post.post_url]*/ ) {
 
                   var oneMediaItem = {
                     "type": post.type,

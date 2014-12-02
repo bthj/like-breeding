@@ -38,13 +38,12 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
       function($scope, $http, networkUserHandles, mediaItemHarvester, NETNAME){
     $scope.allMediaItems = {};
     $scope.selectedMediaItems = [];
-
-    var totalVisibleItems = 4;
+    $scope.totalVisibleItems = 4;
 
     $scope.selectRandomItems = function( numberOfItems ) {
 	    var combinedTags = {};
       $scope.selectedMediaItems = [];
-
+      // console.log("Object.keys($scope.allMediaItems).length: " + Object.keys($scope.allMediaItems).length);
       var usedIndexes = [];
       for( var i=0; i < numberOfItems; i++ ) {
         var oneItemIndex;
@@ -82,12 +81,12 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     $scope.$watchCollection( "allMediaItems", function( newValue, oldValue ) {
       var newValuePropCount = Object.keys(newValue).length;
 
-      if( newValuePropCount > totalVisibleItems &&
-            $scope.selectedMediaItems.length < totalVisibleItems ) {
+      if( newValuePropCount > $scope.totalVisibleItems &&
+            $scope.selectedMediaItems.length < $scope.totalVisibleItems ) {
         // from this $watchCollection thing, we'll only *once* call selectRandomItems
         // when the above critera is met.
         $scope.selectRandomItems(
-          newValuePropCount >= totalVisibleItems ? totalVisibleItems : newValuePropCount );
+          newValuePropCount >= $scope.totalVisibleItems ? $scope.totalVisibleItems : newValuePropCount );
       }
     });
 
