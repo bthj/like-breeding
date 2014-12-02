@@ -46,15 +46,18 @@
         var tumblrBeforeApiKey = "?api_key="
         var tumblrAfterApiKey = "&callback=JSON_CALLBACK";
 
+        var limit = 20;
+        var waitTimeBetweenRequests = 1000;
+
 
         function getMediaItemsFromTumblrAccount( username, mediaItems ) {
 
-          getPostsFromTumblrAccount( username, mediaItems );
-		  
-          getLikesFromTumblrAccount( username, mediaItems )
+          getPostsFromTumblrAccount( username, mediaItems, 0 );
+
+          getLikesFromTumblrAccount( username, mediaItems, 0 )
         }
 
-        function getLikesFromTumblrAccount( username, mediaItems ) {
+        function getLikesFromTumblrAccount( username, mediaItems, offset ) {
 
           $http.jsonp(
             tumblrBeforeUser
@@ -65,25 +68,27 @@
             +tumblrAPIkey
             +tumblrAfterApiKey )
             .success(function(data) {
-            // TODO: loop until data.response.liked_count
-            console.log( data.response );
-            data.response.liked_posts.forEach(function(post, index, array){
+              // TODO: loop until data.response.liked_count
+              console.log( data.response );
+              data.response.liked_posts.forEach(function(post, index, array){
 
-              if( post.type == "photo" ) {
+                if( post.type == "photo" ) {
 
-                var oneMediaItem = {
-                  "type": post.type,
-                  "mediaUrl": post.photos[0].alt_sizes[0].url, //0 works alright as an index
-                  "tags": post.tags,
-                  "sourceUrl": post.post_url
-                };
-                mediaItems.push( oneMediaItem );
-              }
-            });
+                  var oneMediaItem = {
+                    "type": post.type,
+                    "mediaUrl": post.photos[0].alt_sizes[0].url, //0 works alright as an index
+                    "tags": post.tags,
+                    "sourceUrl": post.post_url
+                  };
+                  mediaItems.push( oneMediaItem );
+                }
+              });
+              initiateNextPageRequest(
+                data.response.liked_count, offset, username, mediaItems, getLikesFromTumblrAccount );
           });
         }
 
-        function getPostsFromTumblrAccount( username, mediaItems ) {
+        function getPostsFromTumblrAccount( username, mediaItems, offset ) {
 
           $http.jsonp(
             tumblrBeforeUser
@@ -94,26 +99,48 @@
             +tumblrAPIkey
             +tumblrAfterApiKey )
             .success(function(data) {
-            // TODO: loop until data.response.total_posts
-            // console.log( data.response );
-            data.response.posts.forEach(function(post, index, array){
+              // TODO: loop until data.response.total_posts
+              console.log( data.response );
+              data.response.posts.forEach(function(post, index, array){
 
-              if( post.type == "photo" ) {
+                if( post.type == "photo" ) {
 
-                var oneMediaItem = {
-                  "type": post.type,
-                  "mediaUrl": post.photos[0].alt_sizes[0].url, //0 works alright as an index
-                  "tags": post.tags,
-                  "sourceUrl": post.post_url
-                };
-				//TODO: Perhaps we should drop a post if it doesn't have tags.
-				//Otherwise it is useless for evolution. Unless we can use Google's
-				//new image recognition(fat chance in hell).
-                mediaItems.push( oneMediaItem );
-              }
-            });
+                  var oneMediaItem = {
+                    "type": post.type,
+                    "mediaUrl": post.photos[0].alt_sizes[0].url, //0 works alright as an index
+                    "tags": post.tags,
+                    "sourceUrl": post.post_url
+                  };
+  				//TODO: Perhaps we should drop a post if it doesn't have tags.
+  				//Otherwise it is useless for evolution. Unless we can use Google's
+  				//new image recognition(fat chance in hell).
+                  mediaItems.push( oneMediaItem );
+                }
+              });
+              initiateNextPageRequest(
+                data.response.total_posts, offset, username, mediaItems, getPostsFromTumblrAccount );
           });
 
+        }
+
+        function initiateNextPageRequest(
+          totalItems, currentOffset, username, mediaItems, callback ) {
+
+          var newOffset = currentOffset + limit;
+
+          console.log("newOffset: " + newOffset + ", totalItems: " + totalItems);
+
+          if( newOffset < totalItems ) {
+
+            setTimeout( function(){
+
+              callback( username, mediaItems, newOffset );
+
+            }, waitTimeBetweenRequests);
+          } else {
+            console.log( "Finished paging through " + callback.name +
+              " and the current total of harvested media items is: " + mediaItems.length );
+          }
         }
 
         return {

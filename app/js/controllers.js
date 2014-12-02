@@ -39,6 +39,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     $scope.allMediaItems = [];
     $scope.selectedMediaItems = [];
 
+    var totalVisibleItems = 4;
+
     $scope.selectRandomItems = function( numberOfItems ) {
 	  var combinedTags = {};
       $scope.selectedMediaItems = [];
@@ -49,18 +51,21 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
           oneItemIndex = randomFromInterval( 0, $scope.allMediaItems.length-1 );
         } while( usedIndexes.indexOf(oneItemIndex) > -1); // || $scope.allMediaItems[oneItemIndex].tags.length==0
         usedIndexes.push( oneItemIndex );
+
         $scope.selectedMediaItems.push( $scope.allMediaItems[oneItemIndex] );
-		for(var j=0; j < $scope.allMediaItems[oneItemIndex].tags.length; j++)
-		{
-			if(!combinedTags.hasOwnProperty($scope.allMediaItems[oneItemIndex].tags[j]))
-				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]=1;
-			else
-				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]+=1;
-		}
+
+
+    		for(var j=0; j < $scope.allMediaItems[oneItemIndex].tags.length; j++)
+    		{
+    			if(!combinedTags.hasOwnProperty($scope.allMediaItems[oneItemIndex].tags[j]))
+    				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]=1;
+    			else
+    				combinedTags[$scope.allMediaItems[oneItemIndex].tags[j]]+=1;
+    		}
       }
-	  console.log(combinedTags);
+      console.log(combinedTags);
     }
-	
+
     networkUserHandles.getAllNetworkUserHandles().forEach(function(handle, index, array){
       // console.log( handle.network + ': ' + handle.user );
 
@@ -73,9 +78,11 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     // when items come in from an api call, we want to make selection to display
     $scope.$watchCollection( "allMediaItems", function( newValue, oldValue ){
 
-      if( newValue.length ) {
-
-        $scope.selectRandomItems( newValue.length >= 4 ? 4 : newValue.length );
+      if( newValue.length > totalVisibleItems && $scope.selectedMediaItems.length < totalVisibleItems ) {
+        // from this $watchCollection thing, we'll only once call selectRandomItems
+        // when the above critera is met.
+        $scope.selectRandomItems(
+          newValue.length >= totalVisibleItems ? totalVisibleItems : newValue.length );
       }
     });
 
