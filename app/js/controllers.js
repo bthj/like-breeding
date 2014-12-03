@@ -168,8 +168,16 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
               console.log( bestSimilarMatches );
 
-              $scope.selectedMediaItems[i].similar = false;
-              $scope.selectedMediaItems[i] = bestSimilarMatches[bestSimilarMatches.length-1].item;
+              delete $scope.selectedMediaItems[i].similar;
+              var bestSimilarIndex;
+              var oneSimilarItem;
+              // check for duplicates
+              do {
+                bestSimilarIndex = randomFromInterval(0, bestSimilarMatches.length-1);
+                oneSimilarItem = bestSimilarMatches[bestSimilarIndex].item;
+              } while( $scope.selectedMediaItems.indexOf(oneSimilarItem) > -1 );
+              $scope.selectedMediaItems[i] = oneSimilarItem;
+              usedIndexes[i] = Object.keys($scope.allMediaItems).indexOf(oneSimilarItem.sourceUrl);
             }
 
         } else if( usedIndexes[i] == -1 ) {
@@ -180,6 +188,12 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
             similaritySearch.getClosestMediaItemToOneMediaItem
               for each held image
           */
+
+          if( Math.random() > 0.5 ) {
+
+          } else {
+
+          }
 
 
           var oneItemIndex;
@@ -201,7 +215,6 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
         }
 
-          console.log( $scope.selectedMediaItems );
     		// for(var j=0; j < oneItem.tags.length; j++)
     		// {
     		// 	if(!combinedTags.hasOwnProperty(oneItem.tags[j]))

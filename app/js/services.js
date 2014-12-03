@@ -137,7 +137,7 @@
               console.log( data.response );
               data.response.posts.forEach(function(post, index, array){
 
-                if( post.type == "photo" && post.tags.length /*&& !mediaItems[post.post_url]*/ ) {
+                if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
 
                   var oneMediaItem = {
                     "type": post.type,
@@ -190,6 +190,7 @@
           getMediaItemsFromTumblrAccount: getMediaItemsFromTumblrAccount
         }
       }])
+
 
 
       .factory('localStorageManager', [function(){
@@ -255,6 +256,7 @@
       }])
 
 
+
       .factory('similaritySearch', [function(){
 
         var distanceMeasure = {};
@@ -283,7 +285,6 @@
           for( var item in itemset1) {
             if(itemset2.indexOf(itemset1[item]) != -1)
             {
-              console.log(itemset1[item])
               intersection.push(itemset1[item]);
             }
           }
