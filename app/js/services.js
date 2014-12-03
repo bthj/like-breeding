@@ -28,15 +28,21 @@
           });
           return userHandles;
         }
+        function clear() {
+          savedNetworkHandles = [];
+        }
 
         return {
           addNetworkUser: addNetworkUser,
           getAllNetworkUserHandles: getAllNetworkUserHandles,
-          getUserHandlesForNetwork: getUserHandlesForNetwork
+          getUserHandlesForNetwork: getUserHandlesForNetwork,
+          clear: clear
         }
       })
 
-      .factory('mediaItemHarvester', ['$http', function($http){
+      .factory('mediaItemHarvester',
+          ['$http', 'localStorageManager',
+          function($http, localStorageManager){
         // TODO: env config!
         var tumblrAPIkey = "Djl1CTqPhHhlCsDP9PKcvXptI4jSMmr6QbObhcDVRt4RhTTTdi"
         var tumblrBeforeUser = "http://api.tumblr.com/v2/blog/";
@@ -51,15 +57,23 @@
         var limit = 20;
         var waitTimeBetweenRequests = 1000;
 
+        // how many posts do we want to encounter again, compared to what's already
+        // in mediaItems, before determining that we have harvested all new posts:
+        var maxPostReReads = 3;  // Why 3?  I don't know.  Double Tap should do it http://youtu.be/JmA2WYyw-_A
+
 
         function getMediaItemsFromTumblrAccount( username, mediaItems ) {
 
-          getPostsFromTumblrAccount( username, mediaItems, 0 );
+          var startingFromEmpty = Object.keys(mediaItems).length == 0;
 
-          getLikesFromTumblrAccount( username, mediaItems, 0 )
+          var reEncounterCountStart = startingFromEmpty ? -Number.MAX_VALUE : 0;
+
+          getPostsFromTumblrAccount( username, mediaItems, 0, reEncounterCountStart );
+
+          getLikesFromTumblrAccount( username, mediaItems, 0, reEncounterCountStart );
         }
 
-        function getLikesFromTumblrAccount( username, mediaItems, offset ) {
+        function getLikesFromTumblrAccount( username, mediaItems, offset, reEncounterCount ) {
 
           $http.jsonp(
             tumblrBeforeUser
@@ -78,7 +92,7 @@
               console.log( data.response );
               data.response.liked_posts.forEach(function(post, index, array){
 
-              if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
+                if( post.type == "photo" && post.tags.length && !mediaItems[post.post_url] ) {
 
                   var oneMediaItem = {
                     "type": post.type,
@@ -87,14 +101,24 @@
                     "sourceUrl": post.post_url // won't really need this here, as it's now they key, but might be handy
                   };
                   mediaItems[post.post_url] = oneMediaItem;
+
+                } else if( mediaItems[post.post_url] ) {
+                  reEncounterCount++;
                 }
               });
-              initiateNextPageRequest(
-                data.response.liked_count, offset, username, mediaItems, getLikesFromTumblrAccount );
+              if( reEncounterCount < maxPostReReads ) {
+                initiateNextPageRequest(
+                  data.response.liked_count,
+                  offset,
+                  reEncounterCount,
+                  username,
+                  mediaItems,
+                  getLikesFromTumblrAccount );
+              }
           });
         }
 
-        function getPostsFromTumblrAccount( username, mediaItems, offset ) {
+        function getPostsFromTumblrAccount( username, mediaItems, offset, reEncounterCount ) {
 
           $http.jsonp(
             tumblrBeforeUser
@@ -113,7 +137,7 @@
               console.log( data.response );
               data.response.posts.forEach(function(post, index, array){
 
-              if( post.type == "photo" && post.tags.length /*&& !mediaItems[post.post_url]*/ ) {
+                if( post.type == "photo" && post.tags.length /*&& !mediaItems[post.post_url]*/ ) {
 
                   var oneMediaItem = {
                     "type": post.type,
@@ -122,16 +146,26 @@
                     "sourceUrl": post.post_url
                   };
                   mediaItems[post.post_url] = oneMediaItem;
+
+                } else if( mediaItems[post.post_url] ) {
+                  reEncounterCount++;
                 }
               });
-              initiateNextPageRequest(
-                data.response.total_posts, offset, username, mediaItems, getPostsFromTumblrAccount );
+              if( reEncounterCount < maxPostReReads ) {
+                initiateNextPageRequest(
+                  data.response.total_posts,
+                  offset,
+                  reEncounterCount,
+                  username,
+                  mediaItems,
+                  getPostsFromTumblrAccount );
+              }
           });
 
         }
 
         function initiateNextPageRequest(
-          totalItems, currentOffset, username, mediaItems, callback ) {
+          totalItems, currentOffset, reEncounterCount, username, mediaItems, callback ) {
 
           var newOffset = currentOffset + limit;
 
@@ -141,12 +175,14 @@
 
             setTimeout( function(){
 
-              callback( username, mediaItems, newOffset );
+              callback( username, mediaItems, newOffset, reEncounterCount );
 
             }, waitTimeBetweenRequests);
           } else {
             console.log( "Finished paging through " + callback.name +
               " and the current total of harvested media items is: " + Object.keys(mediaItems).length );
+
+            localStorageManager.saveMediaItems( mediaItems );
           }
         }
 
@@ -154,6 +190,63 @@
           getMediaItemsFromTumblrAccount: getMediaItemsFromTumblrAccount
         }
       }])
+
+
+      .factory('localStorageManager', [function(){
+        var userHandlesStorageKey = "likeBreeder.userHandles";
+        var mediaItemsStorageKey = "likeBreeder.mediaItems";
+        try {
+          var isLocalStorage = ('localStorage' in window && window['localStorage'] !== null);
+        } catch (e) {
+          var isLocalStorage = false;
+        }
+
+        function saveNetworkUserHandles( userHandles ) {
+          if( isLocalStorage ) {
+            localStorage[ userHandlesStorageKey ] = JSON.stringify( userHandles );
+          }
+        }
+
+        function getSavedNeworkUserHandles() {
+          if( isLocalStorage && localStorage[userHandlesStorageKey] ) {
+            return JSON.parse( localStorage[userHandlesStorageKey] );
+          } else {
+            return null;
+          }
+        }
+
+        function clearSavedNetworkUserHandles() {
+          localStorage.removeItem( userHandlesStorageKey );
+        }
+
+        function saveMediaItems( mediaItems ) {
+          if( isLocalStorage ) {
+            localStorage[ mediaItemsStorageKey ] = JSON.stringify( mediaItems );
+          }
+        }
+
+        function getSavedMediaItems() {
+          if( isLocalStorage && localStorage[mediaItemsStorageKey] ) {
+            return JSON.parse( localStorage[mediaItemsStorageKey] );
+          } else {
+            return null;
+          }
+        }
+
+        function clearSavedMediaItems() {
+          localStorage.removeItem( mediaItemsStorageKey );
+        }
+
+        return {
+          saveNetworkUserHandles: saveNetworkUserHandles,
+          getSavedNeworkUserHandles: getSavedNeworkUserHandles,
+          clearSavedNetworkUserHandles: clearSavedNetworkUserHandles,
+          saveMediaItems: saveMediaItems,
+          getSavedMediaItems: getSavedMediaItems,
+          clearSavedMediaItems: clearSavedMediaItems
+        }
+      }])
+
 
      .factory('messageList', ['fbutil', function(fbutil) {
        return fbutil.syncArray('messages', {limit: 10, endAt: null});

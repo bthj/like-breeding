@@ -5,11 +5,81 @@
 angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
   .controller('SocialNetworkRegCtrl',
-      ['$scope', '$http', '$location', 'networkUserHandles', 'NETNAME',
-      function($scope, $http, $location, networkUserHandles, NETNAME){
+      ['$scope', '$http', '$location', 'networkUserHandles', 'localStorageManager', 'NETNAME',
+      function($scope, $http, $location, networkUserHandles, localStorageManager, NETNAME){
+
 
     $scope.formData = {};  // as recommended in http://stackoverflow.com/a/22768720/169858
+    populateUserHandlesFormData();
+
+
+    function getUserHandleArraysFromSets( userHandles ) {
+      var tumblrHandles = [];
+      var weHeartItHandles = [];
+      var soundCloudHandles = [];
+      userHandles.forEach(function( oneHandleEntry, index, array ){
+        switch( oneHandleEntry.network ) {
+          case NETNAME.TUMBLR:
+            tumblrHandles.push( oneHandleEntry.user );
+            break;
+          case NETNAME.WEHEARTIT:
+            weHeartItHandles.push( oneHandleEntry.user );
+            break;
+          case NETNAME.SOUNDCLOUD:
+            soundCloudHandles.push( oneHandleEntry.user );
+            break;
+        }
+      });
+      return {
+        "tumblr": tumblrHandles,
+        "weHeartIt": weHeartItHandles,
+        "soundCloud": soundCloudHandles
+      }
+    }
+
+    function populateUserHandlesFormData() {
+      var userHandles = localStorageManager.getSavedNeworkUserHandles();
+      if( userHandles && userHandles.length ) {
+
+        var handles = getUserHandleArraysFromSets( userHandles );
+
+        $scope.formData.tumblr = handles["tumblr"].join( ", " );
+        $scope.formData.weheartit = handles["weHeartIt"].join( ", " );
+        $scope.formData.soundcloud = handles["soundCloud"].join( ", " );
+      } else {
+        $scope.formData.tumblr = "";
+        $scope.formData.weheartit = "";
+        $scope.formData.soundcloud = "";
+      }
+    }
+
+    function areNetworkHandleSetsEqual( handleSet1, handleSet2 ) {
+      if( handleSet1 && handleSet2 ) {
+        var handles1 = getUserHandleArraysFromSets( handleSet1 );
+        var handles2 = getUserHandleArraysFromSets( handleSet2 );
+        return areScalarValueArraysEqual( handles1["tumblr"], handles2["tumblr"] )
+                && areScalarValueArraysEqual( handles1["weHeartIt"], handles2["weHeartIt"] )
+                && areScalarValueArraysEqual( handles1["soundCloud"], handles2["soundCloud"] );
+      } else {
+        // returning false here is strictly not correct, both could be undefined,
+        // but then we want to start from scratch anyway.
+        return false;
+      }
+
+    }
+
+    function areScalarValueArraysEqual( a1, a2 ) {
+      // based on http://stackoverflow.com/a/19746771/169858
+      // (http://stackoverflow.com/a/22395463/169858)
+      a1.sort();
+      a2.sort();
+      return a1.length==a2.length && a1.every(function(v,i) { return v === a2[i]});
+    }
+
+
     $scope.saveUserHandles = function() {
+
+      networkUserHandles.clear();
 
       if( $scope.formData.tumblr ) {
         $scope.formData.tumblr.split(",").forEach(function(name, index, array){
@@ -29,14 +99,35 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
         });
       }
 
+      if( ! areNetworkHandleSetsEqual(
+            networkUserHandles.getAllNetworkUserHandles(),
+            localStorageManager.getSavedNeworkUserHandles() ) ) {
+
+        localStorageManager.clearSavedMediaItems();
+      }
+
+      localStorageManager.saveNetworkUserHandles(
+        networkUserHandles.getAllNetworkUserHandles() );
+
       $location.path( "/breeding" );
     }
+
+    $scope.clearSavedData = function() {
+      localStorageManager.clearSavedNetworkUserHandles();
+      localStorageManager.clearSavedMediaItems();
+      populateUserHandlesFormData();
+    }
+
   }])
 
+
+
   .controller('LikeBreeding',
-      ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'NETNAME',
-      function($scope, $http, networkUserHandles, mediaItemHarvester, NETNAME){
-    $scope.allMediaItems = {};
+      ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'localStorageManager', 'NETNAME',
+      function($scope, $http, networkUserHandles, mediaItemHarvester, localStorageManager, NETNAME){
+
+    $scope.allMediaItems = localStorageManager.getSavedMediaItems() ?
+                            localStorageManager.getSavedMediaItems() : {};
     $scope.selectedMediaItems = [];
     $scope.totalVisibleItems = 4;
 
