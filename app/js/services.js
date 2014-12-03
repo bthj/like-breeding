@@ -270,7 +270,7 @@
         function unite(itemset1,itemset2)
         {
           var union = itemset1.slice(0);
-          for(item in itemset2) {
+          for( var item in itemset2) {
             if(union.indexOf(itemset2[item]) == -1)
               union.push(itemset2[item]);
           }
@@ -280,8 +280,7 @@
         function intersect(itemset1,itemset2)
         {
           var intersection = [];
-          for(item in itemset1)
-          {
+          for( var item in itemset1) {
             if(itemset2.indexOf(itemset1[item]) != -1)
             {
               console.log(itemset1[item])
@@ -292,31 +291,64 @@
         }
 
         // mediaItems is an object with keys to two items
-        function getKeyForItemsDistance( mediaItems ) {
+        function getKeyForItemsDistance( mediaItem1, mediaItem2 ) {
 
-          return Object.keys(mediaItems).sort().join("");
+          return [mediaItem1.sourceUrl, mediaItem2.sourceUrl].sort().join("");
         }
 
         // mediaItems is an object with keys to *two* items
-        function getDistanceBetweenTwoMediaItems( twoMediaItems ) {
-          var key = getKeyForItemsDistance( twoMediaItems );
+        function getDistanceBetweenTwoMediaItems( mediaItem1, mediaItem2 ) {
+          var key = getKeyForItemsDistance( mediaItem1, mediaItem2 );
 
           if( ! distanceMeasure.hasOwnProperty(key) ) {
             // we haven't computed a distance between those two items before
             // so now we have to!
-            var tagSet1 = mediaItems[Ojbect.keys(twoMediaItems)[0]].tags;
-            var tagSet2 = mediaItems[Ojbect.keys(twoMediaItems)[1]].tags;
+            var tagSet1 = mediaItem1.tags;
+            var tagSet2 = mediaItem2.tags;
             distanceMeasure[key] = jaccard(tagSet1, tagSet2);
           }
           return distanceMeasure[ key ];
         }
 
-        function getClosestMediaItemToOneMediaItem( oneItem, allItems ) {
+        function getClosestMediaItemToOneMediaItem(
+            oneItem, allItems, excludedItems, topCount ) {
 
+          var bestMatches = [];
+
+          Object.keys(allItems).forEach(function(oneOtherItemKey, index, array){
+            var oneOtherItem = allItems[oneOtherItemKey];
+
+            if( oneItem.sourceUrl !== oneOtherItem.sourceUrl &&
+                  !excludedItems[oneItem.sourceUrl] ) {
+
+              var oneDistance = getDistanceBetweenTwoMediaItems( oneItem, oneOtherItem );
+
+              if( bestMatches.length < topCount ) {
+                bestMatches.push( {
+                  "item": oneOtherItem,
+                  "jccrdIdx": oneDistance
+                });
+                bestMatches.sort(function(a,b){
+                  return a.jccrdIdx - b.jccrdIdx;
+                });
+
+              } else if( oneDistance > bestMatches[0].jccrdIdx ) {
+                bestMatches[0] = {
+                  "item": oneOtherItem,
+                  "jccrdIdx": oneDistance
+                };
+                bestMatches.sort(function(a,b){
+                  return a.jccrdIdx - b.jccrdIdx;
+                });
+              }
+
+            }
+          });
+          return bestMatches;
         }
 
         return {
-          getDistanceBetweenTwoMediaItems: getDistanceBetweenTwoMediaItems
+          getClosestMediaItemToOneMediaItem: getClosestMediaItemToOneMediaItem
         }
       }])
 

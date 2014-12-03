@@ -123,8 +123,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
 
   .controller('LikeBreeding',
-      ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'localStorageManager', 'NETNAME',
-      function($scope, $http, networkUserHandles, mediaItemHarvester, localStorageManager, NETNAME){
+      ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'localStorageManager', 'similaritySearch', 'NETNAME',
+      function($scope, $http, networkUserHandles, mediaItemHarvester, localStorageManager, similaritySearch, NETNAME){
 
     $scope.allMediaItems = localStorageManager.getSavedMediaItems() ?
                             localStorageManager.getSavedMediaItems() : {};
@@ -158,10 +158,30 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
             $scope.allMediaItems[ Object.keys($scope.allMediaItems)[usedIndexes[i]] ] );
 
             if( $scope.selectedMediaItems[i].similar ) {
-                console.log( i + "FIND SIMILAR!!!1!11!" );
+
+              var bestSimilarMatches = similaritySearch.getClosestMediaItemToOneMediaItem(
+                $scope.selectedMediaItems[i],
+                $scope.allMediaItems,
+                {},
+                5
+              );
+
+              console.log( bestSimilarMatches );
+
+              $scope.selectedMediaItems[i].similar = false;
+              $scope.selectedMediaItems[i] = bestSimilarMatches[bestSimilarMatches.length-1].item;
             }
 
         } else if( usedIndexes[i] == -1 ) {
+
+          /*
+          50% chance of doing random
+          50% chance of:
+            similaritySearch.getClosestMediaItemToOneMediaItem
+              for each held image
+          */
+
+
           var oneItemIndex;
           do {
             oneItemIndex = randomFromInterval( 0, Object.keys($scope.allMediaItems).length-1 );
