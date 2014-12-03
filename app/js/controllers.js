@@ -131,32 +131,66 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     $scope.selectedMediaItems = [];
     $scope.totalVisibleItems = 4;
 
+    var usedIndexes = [];
+
     $scope.selectRandomItems = function( numberOfItems ) {
 	    var combinedTags = {};
-      $scope.selectedMediaItems = [];
+      // TODO: DELETE $scope.selectedMediaItems = [];
       // console.log("Object.keys($scope.allMediaItems).length: " + Object.keys($scope.allMediaItems).length);
-      var usedIndexes = [];
+
       for( var i=0; i < numberOfItems; i++ ) {
-        var oneItemIndex;
-        do {
-          oneItemIndex = randomFromInterval( 0, Object.keys($scope.allMediaItems).length-1 );
-        } while( usedIndexes.indexOf(oneItemIndex) > -1); // || $scope.allMediaItems[oneItemIndex].tags.length==0
-        usedIndexes.push( oneItemIndex );
-
-        var oneItem = $scope.allMediaItems[Object.keys($scope.allMediaItems)[oneItemIndex]];
-
-        $scope.selectedMediaItems.push( oneItem );
-
-
-    		for(var j=0; j < oneItem.tags.length; j++)
-    		{
-    			if(!combinedTags.hasOwnProperty(oneItem.tags[j]))
-    				combinedTags[oneItem.tags[j]]=1;
-    			else
-    				combinedTags[oneItem.tags[j]]+=1;
-    		}
+        if( usedIndexes[i] !== undefined ) {
+          if( $scope.selectedMediaItems[i] &&
+            (!$scope.selectedMediaItems[i].held && !$scope.selectedMediaItems[i].similar) ) {
+              usedIndexes[i] = -1;
+          }
+        } else {
+          usedIndexes.push( -1 );
+        }
       }
-      console.log(combinedTags);
+      console.log( usedIndexes );
+      $scope.selectedMediaItems = [];
+      for( var i=0; i < numberOfItems; i++ ) {
+
+        if( usedIndexes[i] > -1 ) {
+
+          $scope.selectedMediaItems.push(
+            $scope.allMediaItems[ Object.keys($scope.allMediaItems)[usedIndexes[i]] ] );
+
+            if( $scope.selectedMediaItems[i].similar ) {
+                console.log( i + "FIND SIMILAR!!!1!11!" );
+            }
+
+        } else if( usedIndexes[i] == -1 ) {
+          var oneItemIndex;
+          do {
+            oneItemIndex = randomFromInterval( 0, Object.keys($scope.allMediaItems).length-1 );
+          } while( usedIndexes.indexOf(oneItemIndex) > -1); // || $scope.allMediaItems[oneItemIndex].tags.length==0
+
+          usedIndexes[i] = oneItemIndex;
+
+          var oneItem = $scope.allMediaItems[Object.keys($scope.allMediaItems)[oneItemIndex]];
+/*
+          if( $scope.selectedMediaItems[i] ) {
+            $scope.selectedMediaItems[i] = oneItem;
+          } else {
+            $scope.selectedMediaItems.push( oneItem );
+          }
+*/
+          $scope.selectedMediaItems.push( oneItem );
+
+        }
+
+          console.log( $scope.selectedMediaItems );
+    		// for(var j=0; j < oneItem.tags.length; j++)
+    		// {
+    		// 	if(!combinedTags.hasOwnProperty(oneItem.tags[j]))
+    		// 		combinedTags[oneItem.tags[j]]=1;
+    		// 	else
+    		// 		combinedTags[oneItem.tags[j]]+=1;
+    		// }
+      }
+//      console.log(combinedTags);
     }
 
     networkUserHandles.getAllNetworkUserHandles().forEach(function(handle, index, array){

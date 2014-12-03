@@ -221,7 +221,14 @@
 
         function saveMediaItems( mediaItems ) {
           if( isLocalStorage ) {
-            localStorage[ mediaItemsStorageKey ] = JSON.stringify( mediaItems );
+            localStorage[ mediaItemsStorageKey ] = JSON.stringify(
+              mediaItems, function( key, val ) {
+              // based on http://mutablethought.com/2013/04/25/angular-js-ng-repeat-no-longer-allowing-duplicates/
+              if( key == '$$hashKey' ) {
+                return undefined;
+              }
+              return val;
+            } );
           }
         }
 
@@ -291,17 +298,21 @@
         }
 
         // mediaItems is an object with keys to *two* items
-        function getDistanceBetweenTwoMediaItems( mediaItems ) {
-          var key = getKeyForItemsDistance( mediaItems );
+        function getDistanceBetweenTwoMediaItems( twoMediaItems ) {
+          var key = getKeyForItemsDistance( twoMediaItems );
 
           if( ! distanceMeasure.hasOwnProperty(key) ) {
             // we haven't computed a distance between those two items before
             // so now we have to!
-            var tagSet1 = mediaItems[Ojbect.keys(mediaItems)[0]].tags;
-            var tagSet2 = mediaItems[Ojbect.keys(mediaItems)[1]].tags;
+            var tagSet1 = mediaItems[Ojbect.keys(twoMediaItems)[0]].tags;
+            var tagSet2 = mediaItems[Ojbect.keys(twoMediaItems)[1]].tags;
             distanceMeasure[key] = jaccard(tagSet1, tagSet2);
           }
           return distanceMeasure[ key ];
+        }
+
+        function getClosestMediaItemToOneMediaItem( oneItem, allItems ) {
+
         }
 
         return {
