@@ -248,6 +248,68 @@
       }])
 
 
+      .factory('similaritySearch', [function(){
+
+        var distanceMeasure = {};
+
+        function jaccard(itemset1,itemset2)
+        {
+          var union,intersection;
+          union = unite(itemset1,itemset2);
+          intersection = intersect(itemset1,itemset2);
+          return intersection.length/union.length;
+        }
+
+        function unite(itemset1,itemset2)
+        {
+          var union = itemset1.slice(0);
+          for(item in itemset2) {
+            if(union.indexOf(itemset2[item]) == -1)
+              union.push(itemset2[item]);
+          }
+          return union;
+        }
+
+        function intersect(itemset1,itemset2)
+        {
+          var intersection = [];
+          for(item in itemset1)
+          {
+            if(itemset2.indexOf(itemset1[item]) != -1)
+            {
+              console.log(itemset1[item])
+              intersection.push(itemset1[item]);
+            }
+          }
+          return intersection;
+        }
+
+        // mediaItems is an object with keys to two items
+        function getKeyForItemsDistance( mediaItems ) {
+
+          return Object.keys(mediaItems).sort().join("");
+        }
+
+        // mediaItems is an object with keys to *two* items
+        function getDistanceBetweenTwoMediaItems( mediaItems ) {
+          var key = getKeyForItemsDistance( mediaItems );
+
+          if( ! distanceMeasure.hasOwnProperty(key) ) {
+            // we haven't computed a distance between those two items before
+            // so now we have to!
+            var tagSet1 = mediaItems[Ojbect.keys(mediaItems)[0]].tags;
+            var tagSet2 = mediaItems[Ojbect.keys(mediaItems)[1]].tags;
+            distanceMeasure[key] = jaccard(tagSet1, tagSet2);
+          }
+          return distanceMeasure[ key ];
+        }
+
+        return {
+          getDistanceBetweenTwoMediaItems: getDistanceBetweenTwoMediaItems
+        }
+      }])
+
+
      .factory('messageList', ['fbutil', function(fbutil) {
        return fbutil.syncArray('messages', {limit: 10, endAt: null});
      }]);
