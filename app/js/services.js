@@ -320,7 +320,7 @@
             var oneOtherItem = allItems[oneOtherItemKey];
 
             if( oneItem.sourceUrl !== oneOtherItem.sourceUrl &&
-                  !excludedItems[oneItem.sourceUrl] ) {
+                  !excludedItems[oneOtherItem.sourceUrl] ) {
 
               var oneDistance = getDistanceBetweenTwoMediaItems( oneItem, oneOtherItem );
 

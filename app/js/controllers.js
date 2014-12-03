@@ -148,7 +148,16 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
           usedIndexes.push( -1 );
         }
       }
+      console.log( "usedIndexes" );
       console.log( usedIndexes );
+
+      var heldIndexes = [];
+      usedIndexes.forEach( function(idxValue){
+        if( idxValue > -1 ) heldIndexes.push( idxValue );
+      });
+      console.log( "heldIndexes" );
+      console.log( heldIndexes );
+
       $scope.selectedMediaItems = [];
       for( var i=0; i < numberOfItems; i++ ) {
 
@@ -158,6 +167,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
             $scope.allMediaItems[ Object.keys($scope.allMediaItems)[usedIndexes[i]] ] );
 
             if( $scope.selectedMediaItems[i].similar ) {
+              // so, we want to replace the semi-held item we have, with something similar:
 
               var bestSimilarMatches = similaritySearch.getClosestMediaItemToOneMediaItem(
                 $scope.selectedMediaItems[i],
@@ -169,6 +179,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
               console.log( bestSimilarMatches );
 
               delete $scope.selectedMediaItems[i].similar;
+
               var bestSimilarIndex;
               var oneSimilarItem;
               // check for duplicates
@@ -176,6 +187,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
                 bestSimilarIndex = randomFromInterval(0, bestSimilarMatches.length-1);
                 oneSimilarItem = bestSimilarMatches[bestSimilarIndex].item;
               } while( $scope.selectedMediaItems.indexOf(oneSimilarItem) > -1 );
+
+              // let's do the deed of replacing the semi-held item, with one (hopefully) similar
               $scope.selectedMediaItems[i] = oneSimilarItem;
               usedIndexes[i] = Object.keys($scope.allMediaItems).indexOf(oneSimilarItem.sourceUrl);
             }
@@ -183,35 +196,87 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
         } else if( usedIndexes[i] == -1 ) {
 
           /*
-          50% chance of doing random
+          50% chance of doing random (if nothing is held, 100% chance)
           50% chance of:
             similaritySearch.getClosestMediaItemToOneMediaItem
-              for each held image
+              for each held image, get an array of similar images,
+                combine those arrays and choose the closest (highest) Jaccard index
+                or select semi-randomly (weighted) from the elements in the arrays.
           */
 
-          if( Math.random() > 0.5 ) {
+          if( heldIndexes.length === 0 || Math.random() > 0.5 ) {
+            console.log( "DOING RANDOM THINGS" );
 
-          } else {
+            // let's pick something randomly
+            var oneItemIndex;
+            do {
+              oneItemIndex = randomFromInterval( 0, Object.keys($scope.allMediaItems).length-1 );
+            } while( usedIndexes.indexOf(oneItemIndex) > -1);
 
-          }
+            usedIndexes[i] = oneItemIndex;
 
+            var oneItem = $scope.allMediaItems[Object.keys($scope.allMediaItems)[oneItemIndex]];
 
-          var oneItemIndex;
-          do {
-            oneItemIndex = randomFromInterval( 0, Object.keys($scope.allMediaItems).length-1 );
-          } while( usedIndexes.indexOf(oneItemIndex) > -1); // || $scope.allMediaItems[oneItemIndex].tags.length==0
-
-          usedIndexes[i] = oneItemIndex;
-
-          var oneItem = $scope.allMediaItems[Object.keys($scope.allMediaItems)[oneItemIndex]];
-/*
-          if( $scope.selectedMediaItems[i] ) {
-            $scope.selectedMediaItems[i] = oneItem;
-          } else {
             $scope.selectedMediaItems.push( oneItem );
+
+
+          } else {
+            // let's get closest media items to those held, and pick one of those
+            console.log( "DOING A SIMILARITY SEARCH" );
+
+            var bestSimilarMatchesCollection = [];
+            heldIndexes.forEach(function( oneHeldIndex ) {
+              var oneHeldItem = $scope.allMediaItems[ Object.keys($scope.allMediaItems)[oneHeldIndex] ];
+
+              // let's exclude other held items from coming in as similar matches
+              var otherHeldItems = {};
+              heldIndexes.forEach(function( oneOtherHeldIndex ) {
+                if( oneHeldIndex !== oneOtherHeldIndex ) {
+                  var oneOtherHeldItemKey = Object.keys($scope.allMediaItems)[oneOtherHeldIndex];
+                  var oneOtherHeldItem = $scope.allMediaItems[ oneOtherHeldItemKey ];
+                  otherHeldItems[ oneOtherHeldItemKey ] = oneOtherHeldItem;
+                }
+              });
+              // and now get similar matches for the held item considered in this iteration
+              var bestSimilarMatchesForOneItem = similaritySearch.getClosestMediaItemToOneMediaItem(
+                oneHeldItem,
+                $scope.allMediaItems,
+                otherHeldItems,
+                5
+              );
+              bestSimilarMatchesCollection.push( bestSimilarMatchesForOneItem );
+            });
+
+            // assemble all similar items found for all held items
+            var bestSimilarMatches;
+            if( bestSimilarMatchesCollection.length > 1 ) {
+
+              bestSimilarMatches = [].concat.apply([], bestSimilarMatchesCollection);
+
+            } else { // we should have exactly one array item (which is an array btw)
+
+              bestSimilarMatches = bestSimilarMatchesCollection[0];
+            }
+            bestSimilarMatches.sort(function(a,b){
+              return a.jccrdIdx - b.jccrdIdx;
+            });
+
+
+            // let's just select the closest match for now...
+            // ...that is, the closest match that is not already in $scope.selectedMediaItems
+            // TODO: we might want to do something more stochastic,
+            //  maybe weighted towards the closer matches.
+
+            var bestSimilarIndex = bestSimilarMatches.length;
+            var oneSimilarItem;
+            // check for duplicates
+            do {
+              bestSimilarIndex -= 1;
+              oneSimilarItem = bestSimilarMatches[bestSimilarIndex].item;
+            } while( $scope.selectedMediaItems.indexOf(oneSimilarItem) > -1 );
+
+            $scope.selectedMediaItems.push( oneSimilarItem );
           }
-*/
-          $scope.selectedMediaItems.push( oneItem );
 
         }
 
