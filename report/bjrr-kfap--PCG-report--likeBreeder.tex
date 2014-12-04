@@ -1,5 +1,8 @@
 \documentclass[]{article}
-
+\usepackage[colorinlistoftodos]{todonotes}
+%For front page purposes
+\usepackage{pdfpages}
+\usepackage{hyperref}
 % To handle Icelandic letters
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -10,13 +13,21 @@
 \author{Björn Þór Jónsson and Kasper Fryland Appeldorff}
 
 \begin{document}
-
-\maketitle
-
+\includepdf{frontpage.pdf}
+%\tableofcontents %Table of contents. Automagic
+%\listoffigures %Also has \listoftables
+\listoftodos % Requires package todonotes
+\newpage
 \begin{abstract}
-
+This is nice when you write something and you are not done \todo{I should totally put something here}
+\begin{figure}[h!]
+\missingfigure{Some sort of descripton of what should be there} %Nice if you haven't made the picture yet
+\caption{hey}
+\label{fig:test}
+\end{figure}
 \end{abstract}
 
-\section{}
-
+\section{Introduction}
+\label{sec:intro}
+I am referencing myself in \autoref{sec:intro} on page \pageref{sec:intro}
 \end{document}

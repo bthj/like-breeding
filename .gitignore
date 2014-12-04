@@ -234,3 +234,5 @@ report/*.log
 report/*.tdo
 report/*.lof
 report/*.bbl
+report/*.out
+report/bjrr-kfap--PCG-report--likeBreeder.pdf
