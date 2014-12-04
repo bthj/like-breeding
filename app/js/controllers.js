@@ -279,8 +279,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
               bestSimilarIndex -= 1;
               oneSimilarItem = bestSimilarMatches[bestSimilarIndex].item;
             } while( $scope.selectedMediaItems.indexOf(oneSimilarItem) > -1 );
-			
-			usedIndexes[i] = Object.keys($scope.allMediaItems).indexOf(oneSimilarItem.sourceUrl);
+
+			      usedIndexes[i] = Object.keys($scope.allMediaItems).indexOf(oneSimilarItem.sourceUrl);
             $scope.selectedMediaItems.push( oneSimilarItem );
            }
 
