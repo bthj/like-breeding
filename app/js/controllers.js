@@ -39,6 +39,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
     function populateUserHandlesFormData() {
       var userHandles = localStorageManager.getSavedNeworkUserHandles();
+      // var userHandles = networkUserHandles.getAllNetworkUserHandles();
+      
       if( userHandles && userHandles.length ) {
 
         var handles = getUserHandleArraysFromSets( userHandles );
@@ -103,7 +105,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
             networkUserHandles.getAllNetworkUserHandles(),
             localStorageManager.getSavedNeworkUserHandles() ) ) {
 
-        localStorageManager.clearSavedMediaItems();
+        // localStorageManager.clearAllSavedMediaItems();
       }
 
       localStorageManager.saveNetworkUserHandles(
@@ -113,8 +115,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     }
 
     $scope.clearSavedData = function() {
+      localStorageManager.clearAllSavedMediaItems();
       localStorageManager.clearSavedNetworkUserHandles();
-      localStorageManager.clearSavedMediaItems();
       populateUserHandlesFormData();
     }
 
@@ -126,8 +128,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
       ['$scope', '$http', 'networkUserHandles', 'mediaItemHarvester', 'localStorageManager', 'similaritySearch', 'NETNAME',
       function($scope, $http, networkUserHandles, mediaItemHarvester, localStorageManager, similaritySearch, NETNAME){
 
-    $scope.allMediaItems = localStorageManager.getSavedMediaItems() ?
-                            localStorageManager.getSavedMediaItems() : {};
+    $scope.allMediaItems = Object.keys(localStorageManager.getAllSavedMediaItems()).length > 0 ?
+                            localStorageManager.getAllSavedMediaItems() : {};
     $scope.selectedMediaItems = [];
     $scope.totalVisibleItems = 4;
 
@@ -138,6 +140,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
       // TODO: DELETE $scope.selectedMediaItems = [];
       // console.log("Object.keys($scope.allMediaItems).length: " + Object.keys($scope.allMediaItems).length);
 
+      // let's set indexes (into allMediaItems) to -1 for all items that are not held
       for( var i=0; i < numberOfItems; i++ ) {
         if( usedIndexes[i] !== undefined ) {
           if( $scope.selectedMediaItems[i] &&
@@ -148,9 +151,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
           usedIndexes.push( -1 );
         }
       }
-      console.log( "usedIndexes" );
-      console.log( usedIndexes );
 
+      // collect those indexes (into allMediaItems) that are held, for use in Explore / Exploit
       var heldIndexes = [];
       usedIndexes.forEach( function(idxValue){
         if( idxValue > -1 ) heldIndexes.push( idxValue );
@@ -194,6 +196,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
             }
 
         } else if( usedIndexes[i] == -1 ) {
+
+          // Explore / Exploit
 
           /*
           50% chance of doing random (if nothing is held, 100% chance)
@@ -296,7 +300,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
       if( handle.network == NETNAME.TUMBLR ) {
 
-        mediaItemHarvester.getMediaItemsFromTumblrAccount(handle.user, $scope.allMediaItems);
+        mediaItemHarvester.getMediaItemsFromTumblrAccount(handle, $scope.allMediaItems);
       }
     });
 

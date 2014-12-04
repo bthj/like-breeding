@@ -62,22 +62,22 @@
         var maxPostReReads = 3;  // Why 3?  I don't know.  Double Tap should do it http://youtu.be/JmA2WYyw-_A
 
 
-        function getMediaItemsFromTumblrAccount( username, mediaItems ) {
+        function getMediaItemsFromTumblrAccount( handle, mediaItems ) {
 
           var startingFromEmpty = Object.keys(mediaItems).length == 0;
 
           var reEncounterCountStart = startingFromEmpty ? -Number.MAX_VALUE : 0;
 
-          getPostsFromTumblrAccount( username, mediaItems, 0, reEncounterCountStart );
+          getPostsFromTumblrAccount( handle, mediaItems, 0, reEncounterCountStart );
 
-          getLikesFromTumblrAccount( username, mediaItems, 0, reEncounterCountStart );
+          getLikesFromTumblrAccount( handle, mediaItems, 0, reEncounterCountStart );
         }
 
-        function getLikesFromTumblrAccount( username, mediaItems, offset, reEncounterCount ) {
+        function getLikesFromTumblrAccount( handle, mediaItems, offset, reEncounterCount ) {
 
           $http.jsonp(
             tumblrBeforeUser
-            +username
+            +handle.user
             +tumblrAfterUser
             +tumblrLikes
             +tumblrBeforeLimit
@@ -111,18 +111,18 @@
                   data.response.liked_count,
                   offset,
                   reEncounterCount,
-                  username,
+                  handle,
                   mediaItems,
                   getLikesFromTumblrAccount );
               }
           });
         }
 
-        function getPostsFromTumblrAccount( username, mediaItems, offset, reEncounterCount ) {
+        function getPostsFromTumblrAccount( handle, mediaItems, offset, reEncounterCount ) {
 
           $http.jsonp(
             tumblrBeforeUser
-            +username
+            +handle.user
             +tumblrAfterUser
             +tumblrPosts
             +tumblrBeforeLimit
@@ -156,7 +156,7 @@
                   data.response.total_posts,
                   offset,
                   reEncounterCount,
-                  username,
+                  handle,
                   mediaItems,
                   getPostsFromTumblrAccount );
               }
@@ -165,7 +165,7 @@
         }
 
         function initiateNextPageRequest(
-          totalItems, currentOffset, reEncounterCount, username, mediaItems, callback ) {
+          totalItems, currentOffset, reEncounterCount, handle, mediaItems, callback ) {
 
           var newOffset = currentOffset + limit;
 
@@ -175,14 +175,14 @@
 
             setTimeout( function(){
 
-              callback( username, mediaItems, newOffset, reEncounterCount );
+              callback( handle, mediaItems, newOffset, reEncounterCount );
 
             }, waitTimeBetweenRequests);
           } else {
             console.log( "Finished paging through " + callback.name +
               " and the current total of harvested media items is: " + Object.keys(mediaItems).length );
 
-            localStorageManager.saveMediaItems( mediaItems );
+            localStorageManager.saveMediaItems( mediaItems, handle );
           }
         }
 
@@ -220,9 +220,10 @@
           localStorage.removeItem( userHandlesStorageKey );
         }
 
-        function saveMediaItems( mediaItems ) {
+        function saveMediaItems( mediaItems, handle ) {
           if( isLocalStorage ) {
-            localStorage[ mediaItemsStorageKey ] = JSON.stringify(
+            var mediaStorageKeyForUser = mediaItemsStorageKey + handle.network + handle.user;
+            localStorage[ mediaStorageKeyForUser ] = JSON.stringify(
               mediaItems, function( key, val ) {
               // based on http://mutablethought.com/2013/04/25/angular-js-ng-repeat-no-longer-allowing-duplicates/
               if( key == '$$hashKey' ) {
@@ -233,16 +234,39 @@
           }
         }
 
-        function getSavedMediaItems() {
-          if( isLocalStorage && localStorage[mediaItemsStorageKey] ) {
-            return JSON.parse( localStorage[mediaItemsStorageKey] );
+        function getSavedMediaItems( handle ) {
+          var mediaStorageKeyForUser = mediaItemsStorageKey + handle.network + handle.user;
+          if( isLocalStorage && localStorage[mediaStorageKeyForUser] ) {
+            return JSON.parse( localStorage[mediaStorageKeyForUser] );
           } else {
             return null;
           }
         }
 
-        function clearSavedMediaItems() {
-          localStorage.removeItem( mediaItemsStorageKey );
+        function getAllSavedMediaItems() {
+          var allMediaItems = {};
+          getSavedNeworkUserHandles().forEach(function(oneHandle){
+            var mediaItemsForOneHandle = getSavedMediaItems( oneHandle );
+            if( mediaItemsForOneHandle ) {
+              Object.keys(mediaItemsForOneHandle).forEach(function(oneMediaKey){
+                allMediaItems[oneMediaKey] = mediaItemsForOneHandle[oneMediaKey];
+              });
+            }
+          });
+          return allMediaItems;
+        }
+
+        function clearSavedMediaItems( network, user ) {
+          localStorage.removeItem( mediaItemsStorageKey + network + user );
+        }
+
+        function clearAllSavedMediaItems() {
+          var networkHandles = getSavedNeworkUserHandles();
+          if( networkHandles ) {
+            getSavedNeworkUserHandles().forEach(function(oneHandle){
+              clearSavedMediaItems( oneHandle.network, oneHandle.user );
+            });
+          }
         }
 
         return {
@@ -251,7 +275,8 @@
           clearSavedNetworkUserHandles: clearSavedNetworkUserHandles,
           saveMediaItems: saveMediaItems,
           getSavedMediaItems: getSavedMediaItems,
-          clearSavedMediaItems: clearSavedMediaItems
+          getAllSavedMediaItems: getAllSavedMediaItems,
+          clearAllSavedMediaItems: clearAllSavedMediaItems
         }
       }])
 
