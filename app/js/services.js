@@ -169,7 +169,7 @@
 
           var newOffset = currentOffset + limit;
 
-          console.log("newOffset: " + newOffset + ", totalItems: " + totalItems + ", for: " + callback.name);
+          console.log("newOffset: " + newOffset + ", totalItems: " + totalItems + ", total collected: " + mediaItems.length + ", for: " + callback.name);
 
           if( newOffset < totalItems ) {
 

@@ -40,7 +40,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     function populateUserHandlesFormData() {
       var userHandles = localStorageManager.getSavedNeworkUserHandles();
       // var userHandles = networkUserHandles.getAllNetworkUserHandles();
-      
+
       if( userHandles && userHandles.length ) {
 
         var handles = getUserHandleArraysFromSets( userHandles );
@@ -132,6 +132,9 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
                             localStorageManager.getAllSavedMediaItems() : {};
     $scope.selectedMediaItems = [];
     $scope.totalVisibleItems = 4;
+
+    $scope.rollDisabled = true;
+    $scope.saveDisabled = true;
 
     var usedIndexes = [];
 
@@ -280,6 +283,11 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
             } while( $scope.selectedMediaItems.indexOf(oneSimilarItem) > -1 );
 
             $scope.selectedMediaItems.push( oneSimilarItem );
+          }
+
+          if( $scope.selectedMediaItems.length == $scope.totalVisibleItems ) {
+            $scope.rollDisabled = false;
+            $scope.saveDisabled = false;
           }
 
         }

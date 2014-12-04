@@ -1,9 +1,15 @@
 <h2>likeBreeder</h2>
 
-<div style="display:block; clear:both;">
-  <button ng-click="selectRandomItems(totalVisibleItems)">Roll</button>
-</div>
 <br>
+
+<div style="display:block; clear:both;">
+  <button ng-click="selectRandomItems(totalVisibleItems)"
+    style="display: block; margin-left: auto; margin-right: auto;"
+    ng-disabled="rollDisabled">
+    &uarr; Roll &darr;
+  </button>
+  <br><br><br>
+</div>
 
 <div ng-repeat="oneItem in selectedMediaItems" ng-class="{selected: held, findsimilar: similar}" class="breedpic">
   <div style="margin:auto">
@@ -12,10 +18,20 @@
   tags: <em><span ng-repeat="tag in oneItem.tags">{{tag}},</span></em>
   <br />
   <button class='holdbutton' ng-click="held = !held;similar=false; oneItem.held = held; oneItem.similar = false;">
-	Hold Image {{$index}}
+	   Hold Image {{$index}}
   </button>
   <button class='holdbutton' ng-click="similar = !similar;held=false;  oneItem.similar = similar; oneItem.held = false;">
-	Find Similar
+	   Find Similar
   </button>
   </div>
+</div>
+
+<br><br><br><br><br>
+
+<div style="display:block; clear:both;">
+  <button ng-click="saveStrip()"
+      style="display: block; margin-left: auto; margin-right: auto;"
+      nt-disabled="saveDisabled">
+    &hearts; save strip (todo)
+  </button>
 </div>
