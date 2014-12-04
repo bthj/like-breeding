@@ -137,7 +137,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
     var usedIndexes = [];
 
-    $scope.selectRandomItems = function( numberOfItems ) {
+    $scope.selectItems = function( numberOfItems ) {
 	    var combinedTags = {};
       // TODO: DELETE $scope.selectedMediaItems = [];
       // console.log("Object.keys($scope.allMediaItems).length: " + Object.keys($scope.allMediaItems).length);
@@ -302,6 +302,11 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 //      console.log(combinedTags);
     }
 
+    $scope.saveStrip = function() {
+
+      localStorageManager.saveOneCube( $scope.selectedMediaItems );
+    }
+
     networkUserHandles.getAllNetworkUserHandles().forEach(function(handle, index, array){
       // console.log( handle.network + ': ' + handle.user );
 
@@ -317,9 +322,9 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
       if( newValuePropCount > $scope.totalVisibleItems &&
             $scope.selectedMediaItems.length < $scope.totalVisibleItems ) {
-        // from this $watchCollection thing, we'll only *once* call selectRandomItems
+        // from this $watchCollection thing, we'll only *once* call selectItems
         // when the above critera is met.
-        $scope.selectRandomItems(
+        $scope.selectItems(
           newValuePropCount >= $scope.totalVisibleItems ? $scope.totalVisibleItems : newValuePropCount );
       }
     });
@@ -327,6 +332,17 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     // TODO: in a utility service?
     function randomFromInterval(from,to) {
         return Math.floor(Math.random()*(to-from+1)+from);
+    }
+  }])
+
+
+  .controller("Cubes", ['$scope', 'localStorageManager', function($scope, localStorageManager) {
+
+    $scope.cubes = localStorageManager.getSavedCubes();
+
+    $scope.removeCube = function( index ) {
+      $scope.cubes.splice( index, 1 );
+      localStorageManager.saveCubeState( $scope.cubes );
     }
   }])
 

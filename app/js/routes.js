@@ -11,6 +11,12 @@ angular.module('myApp.routes', ['ngRoute', 'simpleLogin'])
       templateUrl: 'partials/likebreeding.html',
       controller: 'LikeBreeding'
     },
+    '/cubes': {
+      templateUrl: 'partials/cubes.html',
+      controller: 'Cubes'
+    },
+
+
     '/home': {
       templateUrl: 'partials/home.html',
       controller: 'HomeCtrl',

@@ -196,6 +196,8 @@
       .factory('localStorageManager', [function(){
         var userHandlesStorageKey = "likeBreeder.userHandles";
         var mediaItemsStorageKey = "likeBreeder.mediaItems";
+        var cubesStorageKey = "likeBreeder.cubes";
+
         try {
           var isLocalStorage = ('localStorage' in window && window['localStorage'] !== null);
         } catch (e) {
@@ -269,6 +271,35 @@
           }
         }
 
+        function saveOneCube( cube ) {
+          if( isLocalStorage ) {
+
+            var cubes = getSavedCubes();
+            if( !cubes ) cubes = [];
+            cubes.push( cube );
+
+            localStorage[ cubesStorageKey ] = JSON.stringify( cubes );
+          }
+        }
+
+        function saveCubeState( allCubes ) {
+          if( isLocalStorage ) {
+            localStorage[ cubesStorageKey ] = JSON.stringify( allCubes );
+          }
+        }
+
+        function getSavedCubes() {
+          if( isLocalStorage && localStorage[cubesStorageKey] ) {
+            return JSON.parse( localStorage[cubesStorageKey] );
+          } else {
+            return null;
+          }
+        }
+
+        function clearSavedCubes() {
+          localStorage.removeItem( cubesStorageKey );
+        }
+
         return {
           saveNetworkUserHandles: saveNetworkUserHandles,
           getSavedNeworkUserHandles: getSavedNeworkUserHandles,
@@ -276,7 +307,11 @@
           saveMediaItems: saveMediaItems,
           getSavedMediaItems: getSavedMediaItems,
           getAllSavedMediaItems: getAllSavedMediaItems,
-          clearAllSavedMediaItems: clearAllSavedMediaItems
+          clearAllSavedMediaItems: clearAllSavedMediaItems,
+          saveOneCube: saveOneCube,
+          saveCubeState: saveCubeState,
+          getSavedCubes: getSavedCubes,
+          clearSavedCubes: clearSavedCubes
         }
       }])
 

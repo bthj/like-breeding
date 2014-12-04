@@ -14,6 +14,7 @@
 
 \begin{document}
 \includepdf{frontpage.pdf}
+\maketitle
 %\tableofcontents %Table of contents. Automagic
 %\listoffigures %Also has \listoftables
 \listoftodos % Requires package todonotes
@@ -34,8 +35,35 @@ I am referencing myself in \autoref{sec:Introduction} on page \pageref{sec:Intro
 \label{sec:Background}
 \section{Game Design}
 \label{sec:GameDesign}
+
+\todo{examples of games the cubes can be used in}
+
 \section{Methods}
 \label{sec:Methods}
+
+\todo{discuss our reasons for not really doing a proper evolution}
+Suggestion from Noor:
+
+Rather than scanning the full search space each time, initially create a n sets of images randomly.  When you have chosen to hold one or more images, find the best matching set from those n, as a part of a fitness function, and mate that set with the currently visible set.  Then do mutation by randomly selecting images from the whole space, by some chance p.
+
+
+Con ->  Can reach a local optimum very quickly:  After two have been mated, the fittest individuals according the new offspring would comprise a very limited search space?
+
+Pros ->  Limits the search space:  Won’t have to scan all images each time.
+
+Maybe we are not evolving anything?  Then make that point.
+
+--> Really how our evolution proceeds:\\
+Pop size: 1\\
+Gene = Image\\
+Genome = Cube / Image set\\
+Crossover = Similar\\
+Mutate = Random
+
+\todo{mention that speed is not an issue!  cite examples...}
+
+
+
 \section{Results}
 \label{sec:Results}
 \section{Discussion}

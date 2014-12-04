@@ -1,0 +1,19 @@
+<h2>saved.cubes</h2>
+
+<br>
+
+<div ng-repeat="oneCube in cubes">
+
+  <div ng-repeat="oneItem in oneCube" class="breedpic">
+
+    <img ng-src="{{oneItem.mediaUrl}}">
+
+  </div>
+
+  <button ng-click="removeCube($index)" style="display: block; margin-left: auto; ">
+    remove
+  </button>
+
+  <hr>
+
+</div>
