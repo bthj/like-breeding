@@ -39,7 +39,6 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
     function populateUserHandlesFormData() {
       var userHandles = localStorageManager.getSavedNeworkUserHandles();
-      // var userHandles = networkUserHandles.getAllNetworkUserHandles();
 
       if( userHandles && userHandles.length ) {
 
@@ -173,7 +172,6 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
 
             if( $scope.selectedMediaItems[i].similar ) {
               // so, we want to replace the semi-held item we have, with something similar:
-
               var bestSimilarMatches = similaritySearch.getClosestMediaItemToOneMediaItem(
                 $scope.selectedMediaItems[i],
                 $scope.allMediaItems,
@@ -212,7 +210,7 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
           */
 
           if( heldIndexes.length === 0 || Math.random() > 0.5 ) {
-            console.log( "DOING RANDOM THINGS" );
+           console.log( "DOING RANDOM THINGS" );
 
             // let's pick something randomly
             var oneItemIndex;
@@ -281,9 +279,10 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
               bestSimilarIndex -= 1;
               oneSimilarItem = bestSimilarMatches[bestSimilarIndex].item;
             } while( $scope.selectedMediaItems.indexOf(oneSimilarItem) > -1 );
-
+			
+			usedIndexes[i] = Object.keys($scope.allMediaItems).indexOf(oneSimilarItem.sourceUrl);
             $scope.selectedMediaItems.push( oneSimilarItem );
-          }
+           }
 
           if( $scope.selectedMediaItems.length == $scope.totalVisibleItems ) {
             $scope.rollDisabled = false;

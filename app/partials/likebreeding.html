@@ -11,16 +11,16 @@
   <br><br><br>
 </div>
 
-<div ng-repeat="oneItem in selectedMediaItems" ng-class="{selected: held, findsimilar: similar}" class="breedpic">
+<div ng-repeat="oneItem in selectedMediaItems" ng-class="{selected: oneItem.held, findsimilar: oneItem.similar}" class="breedpic">
   <div style="margin:auto">
   <img ng_src="{{oneItem.mediaUrl}}">
   <br />
   tags: <em><span ng-repeat="tag in oneItem.tags">{{tag}},</span></em>
   <br />
-  <button class='holdbutton' ng-click="held = !held;similar=false; oneItem.held = held; oneItem.similar = false;">
+  <button class='holdbutton' ng-click="oneItem.held = !oneItem.held;oneItem.similar=false;">
 	   Hold Image {{$index}}
   </button>
-  <button class='holdbutton' ng-click="similar = !similar;held=false;  oneItem.similar = similar; oneItem.held = false;">
+  <button class='holdbutton' ng-click="oneItem.similar = !oneItem.similar;oneItem.held=false;">
 	   Find Similar
   </button>
   </div>
