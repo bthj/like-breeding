@@ -305,6 +305,8 @@ angular.module('myApp.controllers', ['firebase.utils', 'simpleLogin'])
     $scope.saveStrip = function() {
 
       localStorageManager.saveOneCube( $scope.selectedMediaItems );
+
+      $scope.selectItems( $scope.totalVisibleItems );
     }
 
     networkUserHandles.getAllNetworkUserHandles().forEach(function(handle, index, array){
