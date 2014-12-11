@@ -3,9 +3,7 @@
 %For front page purposes
 \usepackage{pdfpages}
 %MISC
-\usepackage{framed}
-\usepackage{hyperref}
-\usepackage{url}
+\usepackage{framed,hyperref,url,cite}
 % To handle Icelandic letters
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -36,7 +34,7 @@ In this report we introduce a concept of play with content provided by social me
 \end{center}
 
 
-Games have become a large part of social media.  How we play can be viewed as a form of self expression [sicart?].  What social media items we interact with, by liking or posting them, can also be viewed as a form of self expression \cite{bargh2002can}.  Little, if anything, has been done towards creating playful activities, or games, from social media content itself.
+Games have become a large part of social media.  How we play can be viewed as a form of self expression [sicart?]\todo[color=red]{add/remove ref}.  What social media items we interact with, by liking or posting them, can also be viewed as a form of self expression \cite{bargh2002can}.  Little, if anything, has been done towards creating playful activities, or games, from social media content itself.
 
 In the wealth of social media items one may have liked or posted, are there possibly
 combinations of items that better represent one's personality than others?  What if we were given the opportunity to play with the content we have liked in the past, interacting with people who like similar things, across our usual social connections, discovering new ideas and content we may like, and by the way learning more about ourselves?
@@ -90,7 +88,7 @@ While using social media content for games may be considered as novel in itself,
 
 It can be said that we define ourselves by what we love.  For instance, some idea can be had about a person, by knowing what kind of music she likes, what kind of visual artwork takes her fancy, and what food she loves.  So publicly stating her likes, is a form of self expression.
 
-How we play, is also a form of self expression.  What kind of playful activities one seeks to participate in, and what games one likes to play, can help give an idea of what kind of person he is.  “...play is a way of engaging and expressing our being in the world.”  Play is “a way of explaining the world, others, and ourselves … who we want to be…” \cite{sicart2014play}.
+How we play, is also a form of self expression.  What kind of playful activities one seeks to participate in, and what games one likes to play, can help give an idea of what kind of person he is.  “...play is a way of engaging and expressing our being in the world.”  Play is “a way of explaining the world, others, and ourselves … who we want to be…” \cite{sicart2014play}\todo{ref}.
 
 Self identification is important to participants in online communities, in gaming environments, and in life in general \cite{marwick2005selling}.  “Identity plays a key role in virtual communities. In communication, which is the primary activity, knowing the identity of those with whom you communicate is essential for understanding and evaluating an interaction.  Yet in the disembodied world of the virtual community, identity is also ambiguous...” \cite{kollock2002communities}.
 
@@ -99,15 +97,16 @@ An environment that combines those forms of self expression and identification -
 
 \subsection{Creating avatars representing the self}
 
-The importance of self identity, in online environments and games, has been given some attention in research \cite{jones1997virtual}\cite{zhao2008identity}\cite{slater2002social}\cite{kollock2002communities}\cite{marwick2005selling}\cite{vitak2008facebook}.  For instance, the importance of avatar creation, for self identification in games, has been discussed \cite{waggoner2009my}\cite{trepte2010avatar}.  The objects created from favourite media items in the process discussed in this report, the like-cubes, can be viewed as abstract avatars, portraying both a visual and a mental image of their creators \cite{trepte2010avatar}.
+The importance of self identity, in online environments and games, has been given some attention in research \cite{jones1997virtual,zhao2008identity,slater2002social,kollock2002communities,marwick2005selling,vitak2008facebook}.  For instance, the importance of avatar creation, for self identification in games, has been discussed \cite{waggoner2009my,trepte2010avatar}.  The objects created from favourite media items in the process discussed in this report, the like-cubes, can be viewed as abstract avatars, portraying both a visual and a mental image of their creators \cite{trepte2010avatar}.
 
-Is it interesting and enjoyable to engage in online play with the social media items we have liked?  Would it be perceived as interesting to create toys from our liked media content, usable for play, games and self expression?   Would it be helpful in expressing who we really are, or who we want to be \cite{przybylski2012ideal}?  Can it lead to self introspection, when given the chance to select from our likes, those that best describe our persona?  
+Is it interesting and enjoyable to engage in online play with the social media items we have liked?  Would it be perceived as interesting to create toys from our liked media content, usable for play, games and self expression?   Would it be helpful in expressing who we really are, or who we want to be \cite{przybylski2012ideal}\todo{ref}?  Can it lead to self introspection, when given the chance to select from our likes, those that best describe our persona?  
 Is it a welcome aid in self expression, to have access to playful facilities for finding the items that best describe one's personality?
-Will it help define our real life identity?  Could it assist the formation of relationships \cite{vitak2008facebook}, when the self expression enabled by this kind of play would lead to mutual identification \cite{kimmel1966game} among players?
+Will it help define our real life identity?  Could it assist the formation of relationships \cite{vitak2008facebook}, when the self expression enabled by this kind of play would lead to mutual identification \cite{kimmel1966game}\todo{ref} among players?
 
-\todo{[need to massage this into one of the paragraphs -->]} Effort has been made to explore ways of linking people through the tags of media items they interact with \cite{guy2010social}\cite{hung2008tag}.  
+\todo{[need to massage this into one of the paragraphs -->]} Effort has been made to explore ways of linking people through the tags of media items they interact with \cite{guy2010social,hung2008tag}.  
 
-Whereas this project is inspired by previous works on content generation with Interactive Evolutionary Computation (IEC) [tracks][older tracks][picbreeder], it may be viewed as novel in its use of social media items to generate content items for use in play, possibly connecting and joining their creators around common interests.
+Whereas this project is inspired by previous works on content generation with Interactive Evolutionary Computation (IEC) [tracks][older tracks] [pic-breeder]\todo{refs}, it may be viewed as novel in its use of social media items to generate content items for use in play, possibly connecting and joining their creators around common interests.
+
 
 ..previous IEC approaches...
 
@@ -206,10 +205,17 @@ A result of this redesign is that our breeding algorithm has to deviate from the
 
 \todo{CMG FTW!}
 
-
-...\todo{Kasper, could you do a write up on some of the bullets here?  ...distance measures, Jaccard vs. Euclidean... "explain why various ways of not searching the entire space doesnt work"... etc.)}
-
-
+\subsubsection{Measuring Similarity}
+In order to find similar candidates one must first decide how to measure it. This implementations uses the Jaccard Index \cite{jaccard1912distribution}. The Jaccard Index is a similarity measure between sets. It is defined as
+\begin{equation}
+\label{eq:jaccard}
+J(A,B) = \frac{|A \cap B|}{|A \cup B|}
+\end{equation}
+. In other words the Jaccard Index measures the ratio of shared elements to total elements.\\
+The Jaccard Index was chosen because it was deemed fair that larger sets of tags would need to share more elements with other sets to be deemed equally similar. This is not the case with the common way of measuring similarity, Euclidean distance.\\
+Euclidean distance favors small sets. This can be seen from the following example: Imagine four sets of items $S_1, S_2, S_3$ and $S_4$. $S_2$ has 2 items and one of these is found in $S_1$. $S_4$ has 100 items and 99 of those are found in $S_3$. The Euclidean distance between $S_1$ and $S_2$ is 1 and so is the distance between $S_3$ and $S_4$. Intuition says that $S_3$ should be found as more similar to $S_4$ than $S_1$ is similar to $S_2$.\\
+As it turns out the Euclidean distance can expressed through the Jaccard index and the size of the union. The Euclidean distance can be simplified to $d(A,B) = \sqrt{|(A \cup B) \backslash (A \cap B)|} = \sqrt{|A \cup B| - |A \cap B|}$. From \autoref{eq:jaccard} we get that $|A \cap B| = J(A,B) \cdot |A \cup B|$ so the Euclidean distance is $d(A,B) = \sqrt{(1 - J(A,B)) \cdot |A \cup B|}$.\\
+Since the union of A and B will be larger for images with many tags using the Euclidean distance will be an unfair measure.
 \subsection{Suitable platforms}
 
 Games played with social media items, such as the examples discussed in this report, fit naturally within web browser environments and are less suitable for the more traditional game engine technologies, such as those provided with Unity [ref to Unity answers], where it is more difficult to integrate online media content.  Such games could be played on mobile devices or desktop computers, running web browsers, among players geographically separated.  
@@ -263,7 +269,7 @@ Mutate = Random
 \begin{framed}
 Did it work? How well? Provide some figures, and a table or two. How much time does it take?
 \end{framed}
-\begin{itemize}
+\begin{itemize}		
 \item It is fairly quick to reach a conclusion ie. a cube. User fatigue does not become an issue, not even close. Perhaps fiddle with set size?
 	\begin{itemize}
 	\item Timing a few runs with test subjects might be good. We sorta know how this works and as such we are rather quick.
@@ -301,7 +307,7 @@ What are the strengths and shortcomings of your method? How well would it genera
 \item Potential for individual preferences? Perhaps a dial or something for image set size. Other than that it is pretty customizable. You don't even need to have content you like - as long as you know where you can find it.
 \item I would still look into some way of ``surprising'' the user. Instead of random/similar maybe finding dissimilar instead of random? Work under the assumption that not held / not similar means something different than what is there.
 
-\item Establishing relationships between tags or other associated descriptive words, could be helpful.  Semantic relationships, rather than the Jaccardian distances currently employed.  How can they be found?  Could something like ConceptNet help in that regard?  http://conceptnet5.media.mit.edu  
+\item Establishing relationships between tags or other associated descriptive words, could be helpful. Semantic relationships, rather than the Jaccardian distances currently employed.  How can they be found?  Could something like ConceptNet help in that regard?  http://conceptnet5.media.mit.edu  
 
 \end{itemize}
 
