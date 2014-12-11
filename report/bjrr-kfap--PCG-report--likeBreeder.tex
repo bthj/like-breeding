@@ -34,7 +34,7 @@ In this report we introduce a concept of play with content provided by social me
 \end{center}
 
 
-Games have become a large part of social media.  How we play can be viewed as a form of self expression [sicart?]\todo[color=red]{add/remove ref}.  What social media items we interact with, by liking or posting them, can also be viewed as a form of self expression \cite{bargh2002can}.  Little, if anything, has been done towards creating playful activities, or games, from social media content itself.
+Games have become a large part of social media.  How we play can be viewed as a form of self expression.  What social media items we interact with, by liking or posting them, can also be viewed as a form of self expression \cite{bargh2002can}.  Little, if anything, has been done towards creating playful activities, or games, from social media content itself.
 
 In the wealth of social media items one may have liked or posted, are there possibly
 combinations of items that better represent one's personality than others?  What if we were given the opportunity to play with the content we have liked in the past, interacting with people who like similar things, across our usual social connections, discovering new ideas and content we may like, and by the way learning more about ourselves?
@@ -88,7 +88,7 @@ While using social media content for games may be considered as novel in itself,
 
 It can be said that we define ourselves by what we love.  For instance, some idea can be had about a person, by knowing what kind of music she likes, what kind of visual artwork takes her fancy, and what food she loves.  So publicly stating her likes, is a form of self expression.
 
-How we play, is also a form of self expression.  What kind of playful activities one seeks to participate in, and what games one likes to play, can help give an idea of what kind of person he is.  “...play is a way of engaging and expressing our being in the world.”  Play is “a way of explaining the world, others, and ourselves … who we want to be…” \cite{sicart2014play}\todo{ref}.
+How we play, is also a form of self expression.  What kind of playful activities one seeks to participate in, and what games one likes to play, can help give an idea of what kind of person he is.  “...play is a way of engaging and expressing our being in the world.”  Play is “a way of explaining the world, others, and ourselves … who we want to be…” \cite{sicart2014play}.
 
 Self identification is important to participants in online communities, in gaming environments, and in life in general \cite{marwick2005selling}.  “Identity plays a key role in virtual communities. In communication, which is the primary activity, knowing the identity of those with whom you communicate is essential for understanding and evaluating an interaction.  Yet in the disembodied world of the virtual community, identity is also ambiguous...” \cite{kollock2002communities}.
 
@@ -143,10 +143,10 @@ How does this relate to games?  Rating those sets of media items, with the aim o
 
 An example of a game to play, with such like-cubes, can be a quiz where two opponents are each presented with a set of three media-items-cubes and are to guess which one was created by their opponent.  Two of the cubes presented to each player are either randomly generated, selected from other user's collections, or assembled with selection based on heuristics obtained from the imported social media sites activity for each participating player, and one cube is chosen from the collection of cubes she has actually created.  Scores are given for each correct guess and players compete to become experts in each other's likes.  Such play can be viewed purely as a pastime or as a way for people to get to know each other.  Games like \textit{Guess Who?}\cite{GuessWho} can be compared to this quiz example and even inspire further elaborations on it.
 
-Among other conceivable examples is an environment where players assemble with their cube selections, with the aim of arranging them in creative ways into strings of narratives, were short text fragments connect the cubes along interesting storylines (Figure~\ref{fig:narratives}).  Players would vote on the assembled narratives and possibly compete at receiving the most likes on their creations (Fig TODO: Photograph of cubes at play).  More examples of play with social media items can be conceived and a collection of possible play scenarios can be seen in \cite{GoLplay}.
+Among other conceivable examples is an environment where players assemble with their cube selections, with the aim of arranging them in creative ways into strings of narratives, were short text fragments connect the cubes along interesting storylines (Figure~\ref{fig:narratives}).  Players would vote on the assembled narratives and possibly compete at receiving the most likes on their creations.  More examples of play with social media items can be conceived and a collection of possible play scenarios can be seen in \cite{GoLplay}.
 
-\begin{figure}[htp]
-	\missingfigure{photo of like cubes arranged in strings of narratives.}
+\begin{figure}[h!]
+	\centerline{\includegraphics[width=\textwidth]{IMG_20141029_110139.jpg}}
 	\caption{Paper prototype of like-cubes at play in the creation of different narratives.}
 	\label{fig:narratives}
 \end{figure}
@@ -184,7 +184,7 @@ The \textit{genotype} would be an array of length four or six, of which each ele
 Elements in the genes of children could be copied directly from the parents or be populated with tags from new media items found in searches by the tags found in parent elements.
 
 \begin{figure}[htp]
-	\missingfigure{photo of like cubes arranged in strings of narratives.}
+	\centerline{\includegraphics[width=\textwidth]{breederUImockup.png}}
 	\caption{Initial mockups of UI screens showing among other things, like-cube breeding with Interactive Evolutionary Computation, where each individual is a set of media items, and ratings are applied to each individual set.}
 	\label{fig:breedingMockup}
 \end{figure}
@@ -195,7 +195,7 @@ Elements in the genes of children could be copied directly from the parents or b
 After receiving feedback from a potential user of the breeding system, that was not involved in the project implementation, concerning the complexity of digesting multiple sets of media items at a time from one population, a decision was taken to simplify the user interface.  In an effort to lessen user fatigue, the interface was redesigned to show only one set of media items at each evolution step.  That simplified version resembles slot machines or bandits and that familiarity can be considered as an asset.  The resemblance stems especially from the change of interaction, from applying ratings to item sets to that of holding the preferred items in each given set and rolling the rest to evolve the next generation (Figure~\ref{fig:likeBreeder}).
 
 \begin{figure}[htp]
-	\missingfigure{Like-Breeder screen shot.}
+	\centerline{\includegraphics[width=\textwidth]{breederPrototype2.png}}
 	\caption{Screen shot of the Like Breeder prototype, with the simplified interface only showing one set of media items at a time.}
 	\label{fig:likeBreeder}
 \end{figure}
@@ -216,6 +216,8 @@ The Jaccard Index was chosen because it was deemed fair that larger sets of tags
 Euclidean distance favors small sets. This can be seen from the following example: Imagine four sets of items $S_1, S_2, S_3$ and $S_4$. $S_2$ has 2 items and one of these is found in $S_1$. $S_4$ has 100 items and 99 of those are found in $S_3$. The Euclidean distance between $S_1$ and $S_2$ is 1 and so is the distance between $S_3$ and $S_4$. Intuition says that $S_3$ should be found as more similar to $S_4$ than $S_1$ is similar to $S_2$.\\
 As it turns out the Euclidean distance can expressed through the Jaccard index and the size of the union. The Euclidean distance can be simplified to $d(A,B) = \sqrt{|(A \cup B) \backslash (A \cap B)|} = \sqrt{|A \cup B| - |A \cap B|}$. From \autoref{eq:jaccard} we get that $|A \cap B| = J(A,B) \cdot |A \cup B|$ so the Euclidean distance is $d(A,B) = \sqrt{(1 - J(A,B)) \cdot |A \cup B|}$.\\
 Since the union of A and B will be larger for images with many tags using the Euclidean distance will be an unfair measure.
+
+
 \subsection{Suitable platforms}
 
 Games played with social media items, such as the examples discussed in this report, fit naturally within web browser environments and are less suitable for the more traditional game engine technologies, such as those provided with Unity [ref to Unity answers], where it is more difficult to integrate online media content.  Such games could be played on mobile devices or desktop computers, running web browsers, among players geographically separated.  
