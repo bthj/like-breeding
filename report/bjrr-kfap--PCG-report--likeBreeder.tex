@@ -44,8 +44,7 @@ combinations of items that better represent one's personality than others?  What
 \subsection{Content collection and the unconscious mind}
 
 The Internet is full popular of social web sites \cite{LeadingSocialNetworks}, offering media of various kinds and the ability to show our appreciation in some way or another; liking, hearting, starring and so on.
-
-Online activity involves in large part showing appreciation for the various social media items in the form of likes \cite{LM11}.  Those likes are systematically connected to form part of our online identities.  Managers of social networks have the opportunity to play with the data generated from the massive streams of likes, to profile their users, and they are likely to take that opportunity.
+Online activity involves in large part showing appreciation for the various social media items in the form of likes \cite{LM11}.  Those likes are systematically connected to our online identities.  Managers of social networks have the opportunity to play with the data generated from the massive streams of likes, to profile their users, and they are likely to take that opportunity.
 But what do \textit{we} use our likes for?  Do we ever revisit or reflect upon them,  or are we too busy for that, as we are constantly facing a barrage of new content?
 
 
@@ -62,9 +61,7 @@ To facilitate that exploration, we have created an online environment where gues
 
 The prototype discussed in this report does not render the cubes visually in three dimensions, but rather presents the items, which the cubes can potentially be decorated with, on the two dimensional surface of a web page.  Though a visually stunning 3D representation may significantly support user engagement, it is the media item selection process itself that will be under consideration in this project, and the bare presentation offered here will allow evaluation of that process to be performed without distraction.
 
-\begin{framed}
-What problem are you trying to solve?Why is this important? How does this problem make some sort of game better?
-\end{framed}
+
 
 \section{Background}
 \label{sec:Background}
@@ -92,14 +89,12 @@ Like Breeder is intended to aid people in profiling themselves with the media it
 
 Whereas this project is inspired by previous works on content generation with Interactive Evolutionary Computation (IEC) \cite{cardamone2011interactive,togelius2007towards,secretan2011picbreeder}, it may be viewed as novel in its use of social media items to generate content items for use in play, possibly connecting and joining their creators around common interests.
 
-\begin{framed}
-Has this been done before? How? If not, what’s the closest related research? (Both using similar approaches and other algorithms.) What’s novel with your research?
-\end{framed}
+
 
 \section{Game Design}
 \label{sec:GameDesign}
 
-Although no games using social media items currently exist, rating those sets of media items, with the aim of creating cubes representative of one's person, can be looked upon as a form of play, whereas games in general are one form of play.  It can be categorized as an Alea play form \cite{caillois2001man}, with a resemblance of playing a slot machine, though less random in nature while appealing to personal interests.  The cubes bred in this playful activity an can then be considered as play / game content, that can be brought by their creator into various playful activities.  With the option of 3D printing the cubes, they could become tangible toys, fit for play and games in the physical reality.
+Rating those sets of media items, with the aim of creating cubes representative of one's person, can be looked upon as a form of play, whereas games in general are one form of play.  It can be categorized as an Alea play form \cite{caillois2001man}, with a resemblance of playing a slot machine, though less random in nature while appealing to personal interests.  The cubes bred in this playful activity an can then be considered as play / game content, that can be brought by their creator into various playful activities.  With the option of 3D printing the cubes, they could become tangible toys, fit for play and games in the physical reality.
 
 An example of a game to play, with such like-cubes, can be a quiz where two opponents are each presented with a set of three media-items-cubes and are to guess which one was created by their opponent.  Two of the cubes presented to each player are either randomly generated, selected from other user's collections, or assembled with selection based on heuristics obtained from the imported social media sites activity for each participating player, and one cube is chosen from the collection of cubes she has actually created.  Scores are given for each correct guess and players compete to become experts in each other's likes.  Such play can be viewed purely as a pastime or as a way for people to get to know each other.  Games like \textit{Guess Who?}\cite{GuessWho} can be compared to this quiz example and even inspire further elaborations on it.
 
@@ -114,14 +109,11 @@ Among other conceivable examples is an environment where players assemble with t
 Assembling media content from ones collection of likes and posts from social media websites, by manually scanning through the items in a linear fashion, would likely be perceived as tedious work.  Aiding that activity with a variant of \textit{procedural} evolution, \textit{generating content} for social media games in a playful fashion, could increase the odds of potential players becoming engaged in that process.
 
 
-\begin{framed}
-What’s the design of the game you are going to use? Why do you need PCG in this game?
-\end{framed}
 
 \section{Methods}
 \label{sec:Methods}
 
-This project is inspired by the articles about IEC \cite{cardamone2011interactive,secretan2011picbreeder,togelius2007towards}.  Content presentation and user interaction is based on the discussion in that article and the related project.  Instead of composing tracks for a racing game, the aim here is to breed sets of media items that a participant finds representative of her as a person.
+This project is inspired by articles about IEC \cite{cardamone2011interactive,secretan2011picbreeder,togelius2007towards}.  Content presentation and user interaction is based on the discussion in \cite{cardamone2011interactive} and the related project.  Instead of composing tracks for a racing game, the aim here is to breed sets of media items that a participant finds representative of her as a person.
 
 
 \subsection{Initial Genetic Algorithm design}
@@ -142,7 +134,7 @@ Elements in the genes of children could be copied directly from the parents or b
 
 \subsection{Simplification resulting in a deviation from traditional genetic evolution}
 \label{sec:Simplification}
-After receiving feedback from a potential user of the breeding system, that was not involved in the project implementation, concerning the complexity of digesting multiple sets of media items at a time from one population, a decision was taken to simplify the user interface.  In an effort to lessen user fatigue, the interface was redesigned to show only one set of media items at each evolution step.  That simplified version resembles slot machines or bandits and that familiarity can be considered as an asset.  The resemblance stems especially from the change of interaction, from applying ratings to item sets to that of holding the preferred items in each given set and rolling the rest to evolve the next generation (Figure~\ref{fig:likeBreeder}).
+After receiving feedback from a potential user of the breeding system, concerning the complexity of digesting multiple sets of media items at a time from one population, a decision was taken to simplify the user interface.  In an effort to lessen user fatigue, the interface was redesigned to show only one set of media items at each evolution step.  That simplified version resembles slot machines or bandits and that familiarity can be considered as an asset.  The resemblance stems especially from the change of interaction, from applying ratings to item sets to that of holding the preferred items in each given set and rolling the rest to evolve the next generation (Figure~\ref{fig:likeBreeder}).
 
 \begin{figure}[htp]
 	\centerline{\includegraphics[width=\columnwidth]{breederPrototype2.png}}
@@ -152,7 +144,7 @@ After receiving feedback from a potential user of the breeding system, that was 
 
 A result of this redesign is that our breeding algorithm has to deviate from the traditional progression of Genetic Algorithms, as there is now only one individual in the population and evaluation of fitness among individuals, selection and mating, does not apply.  As there is just the equivalent of one cube on display at a time, to lessen user fatigue, instead of many as was originally planned, there is no evolution among competing individuals.  Competition happens now among individual genes, the media items, to get a seat within the genome of that one individual.  Now there is competition among genes, rather than genotypes.\\
 
-Another problem that would have arisen would be adequately representing the entire population with such a small subset. Some people would have datasets consisting of thousands of items. Assuming a cube consists of 6 items, a collection of 3000 items would require a population of 500 individuals, assuming that each items is represented exactly once. With only 6 or so individuals on display (see \autoref{fig:breedingMockup}) a large amount of the population will be neglected.\\
+Another problem that would have arisen with the previous approach, is that of adequately representing the entire population with a small subset. Some people would have datasets consisting of thousands of items. Assuming a cube consists of 6 items, a collection of 3000 items would require a population of 500 individuals, if each item is represented exactly once. With only 6 or so individuals on display (see \autoref{fig:breedingMockup}) a large amount of the population will be neglected.\\
 If one was to try anyway, arranging the population into 6 clusters and picking an individual from each cluster, should get a good cross section of the population, provided that a good similarity measure exists. Two similarity measures come to mind, Euclidean distance and the Jaccard Index (see section \ref{sec:sim} below).
 
 The Jaccard Index can not be used for clustering because it operates on sets. The mean of multiple sets does not make sense because Membership of a set is binary in nature. This means that a mean would either be the union or the intersection between all its members which in both cases will lead to low similarity between any individual and any cluster.
@@ -165,7 +157,7 @@ In order to find similar candidates one must first decide how to measure it. Thi
 \label{eq:jaccard}
 J(A,B) = \frac{|A \cap B|}{|A \cup B|}
 \end{equation}
-. In other words the Jaccard Index measures the ratio of shared elements to total elements.\\
+In other words the Jaccard Index measures the ratio of shared elements to total elements.\\
 The Jaccard Index was chosen because it was deemed fair that larger sets of tags would need to share more elements with other sets to be deemed equally similar. This is not the case with the common way of measuring similarity, Euclidean distance.\\
 Euclidean distance favors small sets. This can be seen from the following example: Imagine four sets of items $S_1, S_2, S_3$ and $S_4$. $S_2$ has 2 items and one of these is found in $S_1$. $S_4$ has 100 items and 99 of those are found in $S_3$. The Euclidean distance between $S_1$ and $S_2$ is 1 and so is the distance between $S_3$ and $S_4$. Intuition says that $S_3$ should be found as more similar to $S_4$ than $S_1$ is similar to $S_2$.\\
 As it turns out the Euclidean distance can expressed through the Jaccard index and the size of the union. The Euclidean distance can be simplified to $d(A,B) = \sqrt{|(A \cup B) \backslash (A \cap B)|} = \sqrt{|A \cup B| - |A \cap B|}$. From \autoref{eq:jaccard} we get that $|A \cap B| = J(A,B) \cdot |A \cup B|$ so the Euclidean distance is $d(A,B) = \sqrt{(1 - J(A,B)) \cdot |A \cup B|}$.\\
@@ -194,24 +186,22 @@ According to a taxonomy of PCG \cite{togelius2014introduction}, our algorithm ca
 
 \subsection{Suitable platforms}
 
-Games played with social media items, such as the examples discussed in this report, fit naturally within web browser environments and are less suitable for the more traditional game engine technologies, such as those provided with Unity [ref to Unity answers], where it is more difficult to integrate online media content.  Such games could be played on mobile devices or desktop computers, running web browsers, among players geographically separated.  
+Games played with social media items, such as the examples discussed in this report, fit naturally within web browser environments and are less suitable for the more traditional game engine technologies, such as those provided with Unity, where it is more difficult to integrate online media content.  Such games could be played on mobile devices or desktop computers, running web browsers, among players geographically separated.  
 
 To join people together, who are in the same place at the same time, in play with media items, a console gaming experience could be implemented for a web enabled device such as Chromecast \cite{ChromecastGames}, where players are joined in front of a common television screen, with game controls implemented for their mobile devices.  This would be more difficult to achieve on traditional living-room game consoles, such as the PlayStation, which do not not speak the language of the web naturally.
 
-\begin{framed}
-How does your algorithm work? Describe in as much detail as you can fit into the report. Classify your algorithm according to the taxonomy in the “Search-based Procedural Content Generation” paper. Also, how did you interface it to the game?
-\end{framed}
+
 
 \section{Results}
 \label{sec:Results}
 
 To access the media items from a person's collection, Like Breeder connects to APIs provided by social media sites.  In the prototype discussed here, the only API communicated with is the one provided by Tumblr.  Accessing that data can be a time consuming process, especially for user accounts that have thousands of media items.  To enable a user to get started using the system right away, after supplying user name handles, data is loaded asynchronously.  When the first batch of media items has arrived, which happens within two seconds under normal circumstances, interactive evolution of media item sets can commence, even though the whole database has not been scanned; as new media items arrive, they are added to the pool under consideration in the evolution process.  
 
-In an effort to limit the load put on the API, the data loading mechanism pauses for one second between requests for new batches (pages), which each contain 20 items.  Given that the loading time of one batch of media items is one second, and the one second delay between requests, the loading time the complete collection from a account containing 12.000 items would be 20 minutes.  Even though the system almost immediately provides access to its functions, there is a question at what point the the received collection could be considered usable.  Whether a small percentage of a user's collection is adequate for the task of finding items representing her identity, could be influenced by how well distributed the items are, in terms of topics, over time in the user's activity history.
+In an effort to limit the load put on the API, the data loading mechanism pauses for one second between requests for new batches (pages), which each contain 20 items.  Given that the loading time of one batch of media items is one second, and a one second delay between requests, the time required to load the complete collection from a account containing 12.000 items would be 20 minutes.  Even though the system almost immediately provides access to its functions, there is a question at what point the the received collection could be considered usable.  Whether a small percentage of a user's collection is adequate for the task of finding items representing her identity, could be influenced by how well distributed the items are, in terms of topics, over time in the user's activity history.
 	
-Our experiments with the Like Breeder prototype show, that our implemented algorithm returns results perceivably in instant time, even when the data fetching mechanism has gathered tens of thousands of media items from active user accounts.  While forming a limited population of media item sets from the complete data set, to be mated and mutated, as discussed in section \ref{sec:InitialAlgorithm}, is a good way of limiting the search space, it does not seem to be necessary in this case, and would not adequately represent the entire data collection (Section \ref{sec:Simplification}, and furthermore it is not compatible with our asynchronous data fetching.
+Our experiments with the Like Breeder prototype show, that our implemented algorithm returns results perceivably in instant time, even when the data fetching mechanism has gathered tens of thousands of media items from active user accounts.  While forming a limited population of media item sets from the complete data set, to be mated and mutated, as discussed in section \ref{sec:InitialAlgorithm}, is a good way of limiting the search space, it does not seem to be necessary in this case, and would not adequately represent the entire data collection (Section \ref{sec:Simplification}), and furthermore it is not compatible with our asynchronous data fetching.
 
-Using the Like Breeder prototype to assemble media item sets with various goals in mind, for example, collecting images that represent one topic, or those that give as broad an image as possible of ones interests, has been an interesting experience.  Our algorithm showed to be efficient and quick in producing the desired results, regardless of the goals set for each evolution session.  The table in figure~\ref{fig:testRunData} shows the average time taken and number of attempts to produce likable media item sets, from a total of ten breeding sessions performed by to test subjects.  A screen shot of a few media item sets generated in this process can be seen in figure~\ref{fig:bredLikeCubes}.
+Using the Like Breeder prototype to assemble media item sets with various goals in mind, for example, collecting images that represent one topic, or those that give as broad an image as possible of ones interests, has been an interesting experience.  Our algorithm showed to be efficient and quick in producing the desired results, regardless of the goals set for each evolution session.  Table~\ref{fig:testRunData} shows the average time taken and the number of attempts to produce likable media item sets, from a total of ten breeding sessions performed by two test subjects.  A screen shot of a few media item sets generated in this process can be seen in figure~\ref{fig:bredLikeCubes}.
 
 \begin{table}[htp]
 \begin{tabular}{|p{2.45cm}|p{.8cm}|p{.8cm}|p{.8cm}|}
@@ -239,20 +229,6 @@ Time Taken & 16s & 30s & 50s \\
 % ...in terms of the visual representation, how much of the dataset we access, etc.
 
 
-\begin{framed}
-Did it work? How well? Provide some figures, and a table or two. How much time does it take?
-\end{framed}
-\begin{itemize}		
-\item It is fairly quick to reach a conclusion ie. a cube. User fatigue does not become an issue, not even close. Perhaps fiddle with set size?
-	\begin{itemize}
-	\item remove tags - then time (rolls + time) to complete cube
-	\item Timing a few runs with test subjects might be good. We sorta know how this works and as such we are rather quick.
-	\item Measure: NumRolls, Rolls giving nothing of interest, Gives up?, Subjective evaluation of topicality
-	\end{itemize}
-\item We should come up with some metrics - A lot of these are going to be subjective I fear.
-\end{itemize}
-
-
 
 \section{Discussion}
 \label{sec:Discussion}
@@ -270,24 +246,7 @@ The process could become more interesting by complexifying the algorithm, when i
 The Like Breeder has an obvious potential to adapt content to individual preferences, as that is the essence of the content generating interaction implemented in the project discussed in this report.  Future iterations on the prototype may offer the incorporation of more social media sites, expanding its reach into the existing personal databases behind ones expressed tastes and interests, empowering their owner to portray their identity with the rich media contained within them.  This could result in a move towards singularity between the self conscious identity and that stored and presented in social media.
 
 
-\begin{framed}
-What are the strengths and shortcomings of your method? How well would it generalize to other game genres? How controllable is it, and what is the potential for using to adapt content to individual preferences? How would you develop it further, if you had time?
-\end{framed}
-\begin{itemize}
-\item Shortcomings and strengths:
-	\begin{itemize}
-	\item Shortcoming: Not very advanced - We essentially use a matrix of indices
-	\item Shortcoming: Pretty close to deterministic - Removes a bit of ``cool factor'' in my opinion. More of a subjective shortcoming but there it is. Not sure how we could ``fix'' this.
-	\item Advantage: Does not ignore anything. When you get something back everything has been considered. No estimations etc.
-	\item Advantage: Speed. Even with a large quantity of content updates are seemingly instant. Perhaps use this as an argument for not trying to reduce search space?
-	\end{itemize}
-\item  It seems very controllable to me. It depends on the amount of ``crap tags'' you put on your things but you can say that about any dataset - low quality data $\Rightarrow$ low quality results. 
-\item Potential for individual preferences? Perhaps a dial or something for image set size. Other than that it is pretty customizable. You don't even need to have content you like - as long as you know where you can find it.
-\item I would still look into some way of ``surprising'' the user. Instead of random/similar maybe finding dissimilar instead of random? Work under the assumption that not held / not similar means something different than what is there.
 
-\item Establishing relationships between tags or other associated descriptive words, could be helpful. Semantic relationships, rather than the Jaccardian distances currently employed.  How can they be found?  Could something like ConceptNet help in that regard?  http://conceptnet5.media.mit.edu  
-
-\end{itemize}
 \subsection{Who did what}
 \begin{itemize}
 \item Björn: API communication, Initial setup
