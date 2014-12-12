@@ -19,7 +19,7 @@
 \maketitle
 %\tableofcontents %Table of contents. Automagic
 %\listoffigures %Also has \listoftables
-\listoftodos % Requires package todonotes
+%\listoftodos % Requires package todonotes
 \newpage
 \begin{abstract}
 In this report we introduce a concept of play with content provided by social media sites.  There are many conceivable scenarios for play within this concept, but our focus in this project will be on procedurally generating items that can brought as toys into those scenarios.
@@ -49,9 +49,9 @@ Online activity involves in large part showing appreciation for the various soci
 But what do \textit{we} use our likes for?  Do we ever revisit or reflect upon them,  or are we too busy for that, as we are constantly facing a barrage of new content?
 
 
-Motivation for our ideas are the endless streams of (re)posts and likes of social media items on sites such as Tumblr\cite{1MinuteData,LM11}.  Observing that activity has lead to thoughts about whether people usually revisit the material they have interacted with, or if people continue to wade through the streams without further reflection.   Are we just continuously adding content to personal databases while never using this data to express ourselves, to define ourselves?  Are there possibly unused opportunities for self expression by reflecting on the media items connected to our online identities? \todo{merge}
+Motivation for our ideas are the endless streams of (re)posts and likes of social media items on sites such as Tumblr\cite{1MinuteData,LM11}.  Observing that activity has lead to thoughts about whether people usually revisit the material they have interacted with, or if people continue to wade through the streams without further reflection.   Are we just continuously adding content to personal databases while never using this data to express ourselves, to define ourselves?  Are there possibly unused opportunities for self expression by reflecting on the media items connected to our online identities?
 
-If we do not revisit our previously liked items, why do we then choose to like things on social media websites?  This could prove to be a rich source ofd untapped personal content.
+%If we do not revisit our previously liked items, why do we then choose to like things on social media websites?  This could prove to be a rich source ofd untapped personal content.
 
 
 \subsection{Playful generation of content collections leading to self expression}
@@ -208,11 +208,32 @@ How does your algorithm work? Describe in as much detail as you can fit into the
 To access the media items from a person's collection, Like Breeder connects to APIs provided by social media sites.  In the prototype discussed here, the only API communicated with is the one provided by Tumblr.  Accessing that data can be a time consuming process, especially for user accounts that have thousands of media items.  To enable a user to get started using the system right away, after supplying user name handles, data is loaded asynchronously.  When the first batch of media items has arrived, which happens within two seconds under normal circumstances, interactive evolution of media item sets can commence, even though the whole database has not been scanned; as new media items arrive, they are added to the pool under consideration in the evolution process.  
 
 In an effort to limit the load put on the API, the data loading mechanism pauses for one second between requests for new batches (pages), which each contain 20 items.  Given that the loading time of one batch of media items is one second, and the one second delay between requests, the loading time the complete collection from a account containing 12.000 items would be 20 minutes.  Even though the system almost immediately provides access to its functions, there is a question at what point the the received collection could be considered usable.  Whether a small percentage of a user's collection is adequate for the task of finding items representing her identity, could be influenced by how well distributed the items are, in terms of topics, over time in the user's activity history.
-
+	
 Our experiments with the Like Breeder prototype show, that our implemented algorithm returns results perceivably in instant time, even when the data fetching mechanism has gathered tens of thousands of media items from active user accounts.  While forming a limited population of media item sets from the complete data set, to be mated and mutated, as discussed in section \ref{sec:InitialAlgorithm}, is a good way of limiting the search space, it does not seem to be necessary in this case, and would not adequately represent the entire data collection (Section \ref{sec:Simplification}, and furthermore it is not compatible with our asynchronous data fetching.
 
-Using the Like Breeder prototype to assemble media item sets with various goals in mind, for example, collecting images that represent one topic, or those that give as broad an image as possible of ones interests, has been an interesting experience.  Our evolution algorithm showed to be efficient and quick in producing the desired results, regardless of the goals set for each evolution session.
-% numbers from a few example runs...
+Using the Like Breeder prototype to assemble media item sets with various goals in mind, for example, collecting images that represent one topic, or those that give as broad an image as possible of ones interests, has been an interesting experience.  Our algorithm showed to be efficient and quick in producing the desired results, regardless of the goals set for each evolution session.  The table in figure~\ref{fig:testRunData} shows the average time taken and number of attempts to produce likable media item sets, from a total of ten breeding sessions performed by to test subjects.  A screen shot of a few media item sets generated in this process can be seen in figure~\ref{fig:bredLikeCubes}.
+
+\begin{table}[htp]
+\begin{tabular}{|p{2.45cm}|p{.8cm}|p{.8cm}|p{.8cm}|}
+\hline
+ & Min & Avg & Max \\
+\hline
+Number of Rolls & 2 & 7.1 & 11 \\
+\hline
+Time Taken & 16s & 30s & 50s \\
+\hline
+\end{tabular}
+\caption{Test data from 10 sessions from 2 users} 
+\label{fig:testRunData}
+\end{table}
+
+
+\begin{figure}[htp]
+	\centerline{\includegraphics[width=\columnwidth]{bredLikeCubes.png}}
+	\caption{Screen shot of bred media item sets.}
+	\label{fig:bredLikeCubes}
+\end{figure}
+
 
 % note to selves: this project is in large part about: adequate representation
 % ...in terms of the visual representation, how much of the dataset we access, etc.
@@ -238,10 +259,16 @@ Did it work? How well? Provide some figures, and a table or two. How much time d
 
 It could be interesting to compare our simplified version, presenting one individual and competing genes, with the initial idea, involving competition between multiple genomes and Genetic Algorithm progression in the traditional manner.  A/B testing could be employed to identify which presentation is better received by users.  It may be viewed as obvious that we have a preconceived preference for the simplified presentation, that influenced out decision to implement it in code, and so our experiments might suffer from the \textit{observer-expectancy effect}, unless they would utilize a double blind design.
 
-\todo{...Kasper: traditional GAs employed in cube refinemenet...}
-...we have considered the possibility of employing the original GA algorithm design on the set of cubes a user has already made, instead of on the whole data set (all imported media posts) as initially considered.  This could be thought of as a refinement step, where cube from ones collection are complexified, whereas the cube creation in the initial step could have tended to be more topical.  This could be done with mating, mutation and fitness evaluation as discussed in \autoref{sec:InitialAlgorithm}  ...as discussed in section....
+%...we have considered the possibility of employing the original GA algorithm design on the set of cubes a user has already made, instead of on the whole data set (all imported media posts) as initially considered.  This could be thought of as a refinement step, where cubes from ones collection are complexified, whereas the cube creation in the initial step could have tended to be more topical.  This could be done with mating, mutation and fitness evaluation as discussed in \autoref{sec:InitialAlgorithm}  ...as discussed in section....
+
+
+The process could become more interesting by complexifying the algorithm, when it comes to finding similar items.  Currently it can be considered as somewhat deterministic.  One way of approaching that could be to establish semantic relationships between tags, to be used in combination with the currently employed Jaccardian indices.  Projects such as ConceptNet \cite{speer2013conceptnet} could prove to be helpful in that regard.
+
+
+
 
 The Like Breeder has an obvious potential to adapt content to individual preferences, as that is the essence of the content generating interaction implemented in the project discussed in this report.  Future iterations on the prototype may offer the incorporation of more social media sites, expanding its reach into the existing personal databases behind ones expressed tastes and interests, empowering their owner to portray their identity with the rich media contained within them.  This could result in a move towards singularity between the self conscious identity and that stored and presented in social media.
+
 
 \begin{framed}
 What are the strengths and shortcomings of your method? How well would it generalize to other game genres? How controllable is it, and what is the potential for using to adapt content to individual preferences? How would you develop it further, if you had time?
