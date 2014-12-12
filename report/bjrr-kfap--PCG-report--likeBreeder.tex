@@ -10,6 +10,8 @@
 \usepackage[T1]{fontenc}
 %\usepackage[margin=2cm]{geometry} %if we need space
 
+
+
 %opening
 \title{Like Breeder\\ \small Report in the course Procedural Content Generation in Games, Autumn 2014}
 \author{Björn Þór Jónsson - \texttt{bjrr@itu.dk}\\Kasper Fryland Appeldorff - \texttt{kfap@itu.dk}}
@@ -100,7 +102,7 @@ An example of a game to play, with such like-cubes, can be a quiz where two oppo
 
 Among other conceivable examples is an environment where players assemble with their cube selections, with the aim of arranging them in creative ways into strings of narratives, were short text fragments connect the cubes along interesting storylines (Figure~\ref{fig:narratives}).  Players would vote on the assembled narratives and possibly compete at receiving the most likes on their creations.  More examples of play with social media items can be conceived and a collection of possible play scenarios can be seen in \cite{GoLplay}.
 
-\begin{figure}[h!]
+\begin{figure}[htp]
 	\centerline{\includegraphics[width=\columnwidth]{IMG_20141029_110139.jpg}}
 	\caption{Paper prototype of like-cubes at play in the creation of different narratives.}
 	\label{fig:narratives}
@@ -125,7 +127,7 @@ The initial idea was to have individuals in this population composed as sets of 
 The \textit{genotype} would be an array of length four or six, of which each element is another array of tags, or if no tags accompany a media item, then the element would simply be the media item's ID / URL.
 \textit{Reproduction} could be based on a crossover from the sequences of tag sets / media IDs from the parents.  
 Elements in the genes of children could be copied directly from the parents or be populated with tags from new media items found in searches by the tags found in parent elements.
-\begin{figure}[h!]
+\begin{figure}[htp]
 	\centerline{\includegraphics[width=\columnwidth]{breederUImockup.png}}
 	\caption{Initial mockups of UI screens showing among other things, like-cube breeding with Interactive Evolutionary Computation, where each individual is a set of media items, and ratings are applied to each individual set.}
 	\label{fig:breedingMockup}
@@ -253,6 +255,17 @@ The Like Breeder has an obvious potential to adapt content to individual prefere
 \item Kasper: Similarity computation, Layout 
 \item Both: Algorithm, Report
 \end{itemize}
+
+
+\subsection{How to run the included implementation}
+The implementation of the Like Breeder prototype, supplied with this report, can be run by performing the following steps:\\
+In the root directory, having the \underline{\href{https://www.npmjs.com}{npm package manager}} previously installed, issuing the following on a command line installs the project's dependencies:\\
+\texttt{npm install}\\
+and the following command starts a local web server: \\
+\texttt{npm start}\\
+so the prototype can be viewed at the url \texttt{\url{http://localhost:8000/app/}}
+
+\newpage
 
 \bibliographystyle{unsrt}
 \bibliography{references}
