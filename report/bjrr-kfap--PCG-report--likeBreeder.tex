@@ -84,13 +84,13 @@ Self identification is important to participants in online communities, in gamin
 
 The importance of self identity, in online environments and games, has been given some attention in research \cite{jones1997virtual,zhao2008identity,slater2002social,kollock2002communities,marwick2005selling,vitak2008facebook}.  For instance, the importance of avatar creation, for self identification in games, has been discussed \cite{waggoner2009my,trepte2010avatar}.  The objects created from favourite media items in the process discussed in this report, the like-cubes, can be viewed as abstract avatars, portraying both a visual and a mental image of their creators \cite{trepte2010avatar}.
 
-\todo{pick some of the commented out stuff}%Is it interesting and enjoyable to engage in online play with the social media items we have liked?  Would it be perceived as interesting to create toys from our liked media content, usable for play, games and self expression?   Would it be helpful in expressing who we really are, or who we want to be \cite{przybylski2012ideal}\todo{ref}?  Can it lead to self introspection, when given the chance to select from our likes, those that best describe our persona?  
+%Is it interesting and enjoyable to engage in online play with the social media items we have liked?  Would it be perceived as interesting to create toys from our liked media content, usable for play, games and self expression?   Would it be helpful in expressing who we really are, or who we want to be \cite{przybylski2012ideal}\todo{ref}?  Can it lead to self introspection, when given the chance to select from our likes, those that best describe our persona?  
 %Is it a welcome aid in self expression, to have access to playful facilities for finding the items that best describe one's personality?
 %Will it help define our real life identity?  Could it assist the formation of relationships \cite{vitak2008facebook}, when the self expression enabled by this kind of play would lead to mutual identification \cite{kimmel1966game}\todo{ref} among players?	
 
-\todo{[need to massage this into one of the paragraphs -->]} Effort has been made to explore ways of linking people through the tags of media items they interact with \cite{guy2010social,hung2008tag}.  
+Like Breeder is intended to aid people in profiling themselves with the media items from their personal collections.  Media sites hosting those collections may benefit from profiling users based on that data, and effort has been made in that regard, utilizing tags associated with media items \cite{guy2010social,hung2008tag}.  A significant difference presented, with the project discussed here, is that of taking steps towards placing that profiling power in the hands of the owners of the data themselves, the individual social media users.
 
-Whereas this project is inspired by previous works on content generation with Interactive Evolutionary Computation (IEC) \cite{cardamone2011interactive,togelius2007towards,secretan2011picbreeder}, it may be viewed as novel in its use of social media items to generate content items for use in play, possibly connecting and joining their creators around common interests.\todo{couple toys to photos on cups/calendar services}
+Whereas this project is inspired by previous works on content generation with Interactive Evolutionary Computation (IEC) \cite{cardamone2011interactive,togelius2007towards,secretan2011picbreeder}, it may be viewed as novel in its use of social media items to generate content items for use in play, possibly connecting and joining their creators around common interests.
 
 \begin{framed}
 Has this been done before? How? If not, what’s the closest related research? (Both using similar approaches and other algorithms.) What’s novel with your research?
@@ -99,7 +99,7 @@ Has this been done before? How? If not, what’s the closest related research? (
 \section{Game Design}
 \label{sec:GameDesign}
 
-How does this relate to games?\todo{Ref previous of no games - then make up our own}  Rating those sets of media items, with the aim of creating cubes representative of one's person, can be looked upon as a form of play, whereas games in general are one form of play.  It can be categorized as an Alea play form \cite{caillois2001man}, with a resemblance of playing a slot machine, though less random in nature while appealing to personal interests.  The cubes bred in this playful activity an can then be considered as play / game content, that can be brought by their creator into various playful activities.  With the option of 3D printing the cubes, they could become tangible toys, fit for play and games in the physical reality.
+Although no games using social media items currently exist, rating those sets of media items, with the aim of creating cubes representative of one's person, can be looked upon as a form of play, whereas games in general are one form of play.  It can be categorized as an Alea play form \cite{caillois2001man}, with a resemblance of playing a slot machine, though less random in nature while appealing to personal interests.  The cubes bred in this playful activity an can then be considered as play / game content, that can be brought by their creator into various playful activities.  With the option of 3D printing the cubes, they could become tangible toys, fit for play and games in the physical reality.
 
 An example of a game to play, with such like-cubes, can be a quiz where two opponents are each presented with a set of three media-items-cubes and are to guess which one was created by their opponent.  Two of the cubes presented to each player are either randomly generated, selected from other user's collections, or assembled with selection based on heuristics obtained from the imported social media sites activity for each participating player, and one cube is chosen from the collection of cubes she has actually created.  Scores are given for each correct guess and players compete to become experts in each other's likes.  Such play can be viewed purely as a pastime or as a way for people to get to know each other.  Games like \textit{Guess Who?}\cite{GuessWho} can be compared to this quiz example and even inspire further elaborations on it.
 
@@ -178,13 +178,26 @@ An item is in one of four states: Not shown, neutral, find similar and held.\\
 The user can choose to hold an item, or to replace and item with a similar one. To swap all unheld items the user then presses a button. If the user has requested a similar item, the item will be replaced by the best available match. If one or more items are held every neutral item has a 50\% chance of being replaced with a similar item and a 50\% chance of being replaced with a random item.\\
 The reason why neutral item has a chance to be replaced at random is that we wish to keep as much of the entire dataset in contention as possible. This, along with the fact that we could not find a proper way of partitioning the search space, is why we are always searching the entire set of media items.
 
+\subsection{Algorithm classification according to a PCG taxonomy}
+
+According to a taxonomy of PCG \cite{togelius2014introduction}, our algorithm can be considered as
+\begin{itemize}
+    \item online, rather that offline, as it relies on a users interaction in an evolutionary process
+    \item necessary, rather than optional, as this is the primary means of generating the play items under consideration
+    \item having a varying degree of control:  The user can choose to get presented with random items, and she can choose to hold some of them, and thereby influence the choice of the remaining items, as discussed in section \ref{sec:AlgorithmDesign}
+    \item adaptive rather than generic:  The displayed content is a direct result of the user actions
+    \item stochastic rather than deterministic:  Even though the user has some influence on what kind of content is displayed, he does not have a direct control over the order in which items appear
+    \item generate-and-test rather than constructive:  The user goes through loops of rolling the media items, holding those preferred, until a preferable result is generated
+    \item mixed authorship rather than automatic generation:  A user and a potential player is highly involved in the process of assembling the item sets for decorating like-cubes.
+\end{itemize}
+
+
 \subsection{Suitable platforms}
 
 Games played with social media items, such as the examples discussed in this report, fit naturally within web browser environments and are less suitable for the more traditional game engine technologies, such as those provided with Unity [ref to Unity answers], where it is more difficult to integrate online media content.  Such games could be played on mobile devices or desktop computers, running web browsers, among players geographically separated.  
 
 To join people together, who are in the same place at the same time, in play with media items, a console gaming experience could be implemented for a web enabled device such as Chromecast \cite{ChromecastGames}, where players are joined in front of a common television screen, with game controls implemented for their mobile devices.  This would be more difficult to achieve on traditional living-room game consoles, such as the PlayStation, which do not not speak the language of the web naturally.
 
-\todo[color=red]{T A X O N O M Y !}
 \begin{framed}
 How does your algorithm work? Describe in as much detail as you can fit into the report. Classify your algorithm according to the taxonomy in the “Search-based Procedural Content Generation” paper. Also, how did you interface it to the game?
 \end{framed}
@@ -205,7 +218,6 @@ Using the Like Breeder prototype to assemble media item sets with various goals 
 % ...in terms of the visual representation, how much of the dataset we access, etc.
 
 
-\todo{mention that speed is not an issue!  cite examples...}
 \begin{framed}
 Did it work? How well? Provide some figures, and a table or two. How much time does it take?
 \end{framed}
