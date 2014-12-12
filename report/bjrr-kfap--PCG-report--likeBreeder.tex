@@ -172,13 +172,28 @@ As it turns out the Euclidean distance can expressed through the Jaccard index a
 Since the union of A and B will be larger for images with many tags using the Euclidean distance will be an unfair measure.
 
 
+\subsection{Algorithm classification according to a PCG taxonomy}
+
+According to a taxonomy of PCG \cite{togelius2014introduction}, our algorithm can be considered as
+\begin{itemize}
+	\item online, rather that offline, as it relies on a users interaction in an evolutionary process
+	\item necessary, rather than optional, as this is the primary means of generating the play items under consideration
+	\item having a varying degree of control:  The user can choose to get presented with random items, and she can choose to hold some of them, and thereby influence the choice of the remaining items, as discussed in section \ref{sec:AlgorithmDesign}
+	\item adaptive rather than generic:  The displayed content is a direct result of the user actions
+	\item stochastic rather than deterministic:  Even though the user has some influence on what kind of content is displayed, he does not have a direct control over the order in which items appear
+	\item generate-and-test rather than constructive:  The user goes through loops of rolling the media items, holding those preferred, until a preferable result is generated
+	\item mixed authorship rather than automatic generation:  A user and a potential player is highly involved in the process of assembling the item sets for decorating like-cubes.
+\end{itemize}
+
+
 \subsection{Suitable platforms}
 
 Games played with social media items, such as the examples discussed in this report, fit naturally within web browser environments and are less suitable for the more traditional game engine technologies, such as those provided with Unity [ref to Unity answers], where it is more difficult to integrate online media content.  Such games could be played on mobile devices or desktop computers, running web browsers, among players geographically separated.  
 
 To join people together, who are in the same place at the same time, in play with media items, a console gaming experience could be implemented for a web enabled device such as Chromecast \cite{ChromecastGames}, where players are joined in front of a common television screen, with game controls implemented for their mobile devices.  This would be more difficult to achieve on traditional living-room game consoles, such as the PlayStation, which do not not speak the language of the web naturally.
 
-\todo[color=red]{T A X O N O M Y !}
+
+
 \begin{framed}
 How does your algorithm work? Describe in as much detail as you can fit into the report. Classify your algorithm according to the taxonomy in the “Search-based Procedural Content Generation” paper. Also, how did you interface it to the game?
 \end{framed}
