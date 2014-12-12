@@ -149,13 +149,18 @@ After receiving feedback from a potential user of the breeding system, that was 
 	\label{fig:likeBreeder}
 \end{figure}
 
-A result of this redesign is that our breeding algorithm has to deviate from the traditional progression of Genetic Algorithms, as there is now only one individual in the population and evaluation of fitness among individuals, selection and mating, does not apply.  As there is just the equivalent of one cube on display at a time, to lessen user fatigue, instead of many as was originally planned, there is no evolution among competing individuals.  Competition happens now among individual genes, the media items, to get a seat within the genome of that one individual.  Now there is competition among genes, rather than genotypes.
+A result of this redesign is that our breeding algorithm has to deviate from the traditional progression of Genetic Algorithms, as there is now only one individual in the population and evaluation of fitness among individuals, selection and mating, does not apply.  As there is just the equivalent of one cube on display at a time, to lessen user fatigue, instead of many as was originally planned, there is no evolution among competing individuals.  Competition happens now among individual genes, the media items, to get a seat within the genome of that one individual.  Now there is competition among genes, rather than genotypes.\\
 
+Another problem that would have arisen would be adequately representing the entire population with such a small subset. Some people would have datasets consisting of thousands of items. Assuming a cube consists of 6 items, a collection of 3000 items would require a population of 500 individuals, assuming that each items is represented exactly once. With only 6 or so individuals on display (see \autoref{fig:breedingMockup}) a large amount of the population will be neglected.\\
+If one was to try anyway, arranging the population into 6 clusters and picking an individual from each cluster, should get a good cross section of the population, provided that a good similarity measure exists. Two similarity measures come to mind, Euclidean distance and the Jaccard Index (see section \ref{sec:sim} below).
 
+The Jaccard Index can not be used for clustering because it operates on sets. The mean of multiple sets does not make sense because Membership of a set is binary in nature. This means that a mean would either be the union or the intersection between all its members which in both cases will lead to low similarity between any individual and any cluster.
+The Euclidean distance is also a bad similarity measure because we are operating on sets. As explained below an item with a large amount of tags would be far away from most other items simply because the union of tags will be large.
 \todo{Explain how segmenting the search space would require Euclid which sucks. Unpossible to select small set of pop that adequately represents entire pop - because Euclid sucks}
 
 \subsubsection{Measuring Similarity}
-In order to find similar candidates one must first decide how to measure it. This implementations uses the Jaccard Index \cite{jaccard1912distribution}. The Jaccard Index is a similarity measure between sets. It is defined as
+\label{sec:sim}
+In order to find similar candidates one must first decide how to measure it. This implementation uses the Jaccard Index \cite{jaccard1912distribution}. The Jaccard Index is a similarity measure between sets. It is defined as
 \begin{equation}
 \label{eq:jaccard}
 J(A,B) = \frac{|A \cap B|}{|A \cup B|}
@@ -173,25 +178,14 @@ Games played with social media items, such as the examples discussed in this rep
 
 To join people together, who are in the same place at the same time, in play with media items, a console gaming experience could be implemented for a web enabled device such as Chromecast \cite{ChromecastGames}, where players are joined in front of a common television screen, with game controls implemented for their mobile devices.  This would be more difficult to achieve on traditional living-room game consoles, such as the PlayStation, which do not not speak the language of the web naturally.
 
-
-
+\todo[color=red]{T A X O N O M Y !}
 \begin{framed}
 How does your algorithm work? Describe in as much detail as you can fit into the report. Classify your algorithm according to the taxonomy in the “Search-based Procedural Content Generation” paper. Also, how did you interface it to the game?
 \end{framed}
 
-
-
-\begin{itemize}
-\item Mention that speed is fast. We might want to see if we can reach over 100k by combining blogs
-\end{itemize}
-
-\todo{mention that speed is not an issue!  cite examples...}
-
-
-
 \section{Results}
 \label{sec:Results}
-No room - too bad.
+\todo{mention that speed is not an issue!  cite examples...}
 \begin{framed}
 Did it work? How well? Provide some figures, and a table or two. How much time does it take?
 \end{framed}
