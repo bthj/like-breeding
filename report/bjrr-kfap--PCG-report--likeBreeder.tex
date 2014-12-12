@@ -1,5 +1,5 @@
-\documentclass[]{article}
-%\documentclass[conference]{IEEETran}
+%\documentclass[]{article}
+\documentclass[conference]{IEEETran}
 \usepackage[colorinlistoftodos]{todonotes}
 %For front page purposes
 \usepackage{pdfpages}
@@ -35,9 +35,9 @@ In this report we introduce a concept of play with content provided by social me
 \end{center}
 
 
-Games have become a large part of social media.  How we play can be viewed as a form of self expression \cite{sicart2014play}.  What social media items we interact with, by liking or posting them, can also be viewed as a form of self expression \cite{bargh2002can}.  Little, if anything, has been done towards creating playful activities, or games, from social media content itself.
+Games have become a large part of social media.  How we play can be viewed as a form of self expression \cite{sicart2014play}.  What social media items we interact with, by liking or posting them, can also be viewed as a form of self expression \cite{bargh2002can}.  Little, if anything, has been done towards creating playful activities or games, from social media content itself.
 
-In the wealth of social media items one may have liked or posted, are there possibly
+In the wealth of social media items one may have liked or posted, are there
 combinations of items that better represent one's personality than others?  What if we were given the opportunity to play with the content we have liked in the past, interacting with people who like similar things, across our usual social connections, discovering new ideas and content we may like, and by the way learning more about ourselves?
 
 
@@ -96,7 +96,7 @@ Whereas this project is inspired by previous works on content generation with In
 
 Rating those sets of media items, with the aim of creating cubes representative of one's person, can be looked upon as a form of play, whereas games in general are one form of play.  It can be categorized as an Alea play form \cite{caillois2001man}, with a resemblance of playing a slot machine, though less random in nature while appealing to personal interests.  The cubes bred in this playful activity an can then be considered as play / game content, that can be brought by their creator into various playful activities.  With the option of 3D printing the cubes, they could become tangible toys, fit for play and games in the physical reality.
 
-An example of a game to play, with such like-cubes, can be a quiz where two opponents are each presented with a set of three media-items-cubes and are to guess which one was created by their opponent.  Two of the cubes presented to each player are either randomly generated, selected from other user's collections, or assembled with selection based on heuristics obtained from the imported social media sites activity for each participating player, and one cube is chosen from the collection of cubes she has actually created.  Scores are given for each correct guess and players compete to become experts in each other's likes.  Such play can be viewed purely as a pastime or as a way for people to get to know each other.  Games like \textit{Guess Who?}\cite{GuessWho} can be compared to this quiz example and even inspire further elaborations on it.
+An example of a game to play, with such like-cubes, can be a quiz where two opponents are each presented with a set of three cubes and are to guess which one was created by their opponent.  Two of the cubes presented to each player are either randomly generated, selected from other user's collections, or assembled with selection based on heuristics obtained from the imported social media sites activity for each participating player, and one cube is chosen from the collection of cubes she has actually created.  Scores are given for each correct guess and players compete to become experts in each other's likes.  Such play can be viewed purely as a pastime or as a way for people to get to know each other.  Games like \textit{Guess Who?}\cite{GuessWho} can be compared to this quiz example and even inspire further elaborations on it.
 
 Among other conceivable examples is an environment where players assemble with their cube selections, with the aim of arranging them in creative ways into strings of narratives, were short text fragments connect the cubes along interesting storylines (Figure~\ref{fig:narratives}).  Players would vote on the assembled narratives and possibly compete at receiving the most likes on their creations.  More examples of play with social media items can be conceived and a collection of possible play scenarios can be seen in \cite{GoLplay}.
 
@@ -134,7 +134,7 @@ Elements in the genes of children could be copied directly from the parents or b
 
 \subsection{Simplification resulting in a deviation from traditional genetic evolution}
 \label{sec:Simplification}
-After receiving feedback from a potential user of the breeding system, concerning the complexity of digesting multiple sets of media items at a time from one population, a decision was taken to simplify the user interface.  In an effort to lessen user fatigue, the interface was redesigned to show only one set of media items at each evolution step.  That simplified version resembles slot machines or bandits and that familiarity can be considered as an asset.  The resemblance stems especially from the change of interaction, from applying ratings to item sets to that of holding the preferred items in each given set and rolling the rest to evolve the next generation (Figure~\ref{fig:likeBreeder}).
+After receiving feedback from a potential user of the breeding system, concerning the complexity of digesting multiple sets of media items at a time from one population, a decision was taken to simplify the user interface.  In an effort to lessen user fatigue, the interface was redesigned to show only one set of media items at each evolution step.  That simplified version resembles slot machines or bandits and that familiarity can be considered an asset.  The resemblance stems especially from the change of interaction, from applying ratings to item sets to that of holding the preferred items in each given set and rolling the rest to evolve the next generation (Figure~\ref{fig:likeBreeder}).
 
 \begin{figure}[htp]
 	\centerline{\includegraphics[width=\columnwidth]{breederPrototype2.png}}
@@ -147,38 +147,38 @@ A result of this redesign is that our breeding algorithm has to deviate from the
 Another problem that would have arisen with the previous approach, is that of adequately representing the entire population with a small subset. Some people would have datasets consisting of thousands of items. Assuming a cube consists of 6 items, a collection of 3000 items would require a population of 500 individuals, if each item is represented exactly once. With only 6 or so individuals on display (see \autoref{fig:breedingMockup}) a large amount of the population will be neglected.\\
 If one was to try anyway, arranging the population into 6 clusters and picking an individual from each cluster, should get a good cross section of the population, provided that a good similarity measure exists. Two similarity measures come to mind, Euclidean distance and the Jaccard Index (see section \ref{sec:sim} below).
 
-The Jaccard Index can not be used for clustering because it operates on sets. The mean of multiple sets does not make sense because Membership of a set is binary in nature. This means that a mean would either be the union or the intersection between all its members which in both cases will lead to low similarity between any individual and any cluster.
+The Jaccard Index can not be used for clustering because it operates on sets. The mean of multiple sets does not make sense because membership of a set is binary in nature. This means that a mean would either be the union or the intersection between all its members which in both cases will lead to low similarity between any individual and any cluster.
 The Euclidean distance is also a bad similarity measure because we are operating on sets. As explained below an item with a large amount of tags would be far away from most other items simply because the union of tags will be large.
 
 \subsubsection{Measuring Similarity}
 \label{sec:sim}
-In order to find similar candidates one must first decide how to measure it. This implementation uses the Jaccard Index \cite{jaccard1912distribution}. The Jaccard Index is a similarity measure between sets. It is defined as
+In order to find similar candidates one must first decide how to measure similarity. This implementation uses the Jaccard Index \cite{jaccard1912distribution}. The Jaccard Index is a similarity measure between sets. It is defined as
 \begin{equation}
 \label{eq:jaccard}
 J(A,B) = \frac{|A \cap B|}{|A \cup B|}
 \end{equation}
 In other words the Jaccard Index measures the ratio of shared elements to total elements.\\
 The Jaccard Index was chosen because it was deemed fair that larger sets of tags would need to share more elements with other sets to be deemed equally similar. This is not the case with the common way of measuring similarity, Euclidean distance.\\
-Euclidean distance favors small sets. This can be seen from the following example: Imagine four sets of items $S_1, S_2, S_3$ and $S_4$. $S_2$ has 2 items and one of these is found in $S_1$. $S_4$ has 100 items and 99 of those are found in $S_3$. The Euclidean distance between $S_1$ and $S_2$ is 1 and so is the distance between $S_3$ and $S_4$. Intuition says that $S_3$ should be found as more similar to $S_4$ than $S_1$ is similar to $S_2$.\\
+Euclidean distance favors small sets. This can be seen from the following example: Imagine four sets of items $S_1, S_2, S_3$ and $S_4$. $S_2$ has 2 items and $S_1$ only consists of one of these. $S_4$ has 100 items and $S_3$  only consists of 99 of those. The Jaccard Index of $S_1$ and $S_2$ is 0.5 and the Jaccard Index betweeen $S_3$ and $S_4$ is 0.99. The Euclidean distance between $S_1$ and $S_2$ is 1 and so is the distance between $S_3$ and $S_4$. Intuition says that $S_3$ should be found as more similar to $S_4$ than $S_1$ is similar to $S_2$.\\
 As it turns out the Euclidean distance can expressed through the Jaccard index and the size of the union. The Euclidean distance can be simplified to $d(A,B) = \sqrt{|(A \cup B) \backslash (A \cap B)|} = \sqrt{|A \cup B| - |A \cap B|}$. From \autoref{eq:jaccard} we get that $|A \cap B| = J(A,B) \cdot |A \cup B|$ so the Euclidean distance is $d(A,B) = \sqrt{(1 - J(A,B)) \cdot |A \cup B|}$.\\
 Since the union of A and B will be larger for images with many tags using the Euclidean distance will be an unfair measure.
 
 \subsection{Algorithm Design}
 \label{sec:AlgorithmDesign}
-Initially the user is presented with items chosen at random. From there on out and iterative process is repeated until a set has been completed and the user decides to save it.
+Initially the user is presented with items chosen at random. From there on out an iterative process is repeated until a set has been completed and the user decides to save it.
 An item is in one of four states: Not shown, neutral, find similar and held.\\
-The user can choose to hold an item, or to replace and item with a similar one. To swap all unheld items the user then presses a button. If the user has requested a similar item, the item will be replaced by the best available match. If one or more items are held every neutral item has a 50\% chance of being replaced with a similar item and a 50\% chance of being replaced with a random item.\\
-The reason why neutral item has a chance to be replaced at random is that we wish to keep as much of the entire dataset in contention as possible. This, along with the fact that we could not find a proper way of partitioning the search space, is why we are always searching the entire set of media items.
+The user can choose to hold an item, or to replace and item with a similar one. To swap all unheld items the user then presses the ``\textit{roll}'' button. If the user has requested a similar item, the item will be replaced by the best available match. If one or more items are held every neutral item has a 50\% chance of being replaced with an item similar to a held item and a 50\% chance of being replaced with a random item.\\
+The reason why a neutral item has a chance to be replaced at random is that we wish to keep as much of the entire dataset in contention as possible. This, along with the fact that we could not find a proper way of partitioning the search space, is why we are always searching the entire set of media items.
 
 \subsection{Algorithm classification according to a PCG taxonomy}
 
 According to a taxonomy of PCG \cite{togelius2014introduction}, our algorithm can be considered as
 \begin{itemize}
-    \item online, rather that offline, as it relies on a users interaction in an evolutionary process
+    \item online, rather than offline, as it relies on user interaction in an evolutionary process
     \item necessary, rather than optional, as this is the primary means of generating the play items under consideration
-    \item having a varying degree of control:  The user can choose to get presented with random items, and she can choose to hold some of them, and thereby influence the choice of the remaining items, as discussed in section \ref{sec:AlgorithmDesign}
+    \item having a varying degree of control:  The user can choose to get presented with random items, and he/she can choose to hold some of them, and thereby influence the choice of the remaining items, as discussed in section \ref{sec:AlgorithmDesign}
     \item adaptive rather than generic:  The displayed content is a direct result of the user actions
-    \item stochastic rather than deterministic:  Even though the user has some influence on what kind of content is displayed, he does not have a direct control over the order in which items appear
+    \item stochastic rather than deterministic:  Even though the user has some influence on what kind of content is displayed, he/she does not have direct control over the order in which items appear
     \item generate-and-test rather than constructive:  The user goes through loops of rolling the media items, holding those preferred, until a preferable result is generated
     \item mixed authorship rather than automatic generation:  A user and a potential player is highly involved in the process of assembling the item sets for decorating like-cubes.
 \end{itemize}
