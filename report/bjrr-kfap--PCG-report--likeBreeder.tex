@@ -200,6 +200,20 @@ How does your algorithm work? Describe in as much detail as you can fit into the
 
 \section{Results}
 \label{sec:Results}
+
+To access the media items from a person's collection, Like Breeder connects to APIs provided by social media sites.  In the prototype discussed here, the only API communicated with is the one provided by Tumblr.  Accessing that data can be a time consuming process, especially for user accounts that have thousands of media items.  To enable a user to get started using the system right away, after supplying user name handles, data is loaded asynchronously.  When the first batch of media items has arrived, which happens within two seconds under normal circumstances, interactive evolution of media item sets can commence, even though the whole database has not been scanned; as new media items arrive, they are added to the pool under consideration in the evolution process.  
+
+In an effort to limit the load put on the API, the data loading mechanism pauses for one second between requests for new batches (pages), which each contain 20 items.  Given that the loading time of one batch of media items is one second, and the one second delay between requests, the loading time the complete collection from a account containing 12.000 items would be 20 minutes.  Even though the system almost immediately provides access to its functions, there is a question at what point the the received collection could be considered usable.  Whether a small percentage of a user's collection is adequate for the task of finding items representing her identity, could be influenced by how well distributed the items are, in terms of topics, over time in the user's activity history.
+
+Our experiments with the Like Breeder prototype show, that our implemented algorithm returns results perceivably in instant time, even when the data fetching mechanism has gathered tens of thousands of media items from active user accounts.  While forming a limited population of media item sets from the complete data set, to be mated and mutated, as discussed in section \ref{sec:InitialAlgorithm}, is a good way of limiting the search space, it does not seem to be necessary in this case, and would not adequately represent the entire data collection (Section \ref{sec:Simplification}, and furthermore it is not compatible with our asynchronous data fetching.
+
+Using the Like Breeder prototype to assemble media item sets with various goals in mind, for example, collecting images that represent one topic, or those that give as broad an image as possible of ones interests, has been an interesting experience.  Our evolution algorithm showed to be efficient and quick in producing the desired results, regardless of the goals set for each evolution session.
+% numbers from a few example runs...
+
+% note to selves: this project is in large part about: adequate representation
+% ...in terms of the visual representation, how much of the dataset we access, etc.
+
+
 \todo{mention that speed is not an issue!  cite examples...}
 \begin{framed}
 Did it work? How well? Provide some figures, and a table or two. How much time does it take?
