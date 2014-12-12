@@ -84,11 +84,11 @@ Self identification is important to participants in online communities, in gamin
 
 The importance of self identity, in online environments and games, has been given some attention in research \cite{jones1997virtual,zhao2008identity,slater2002social,kollock2002communities,marwick2005selling,vitak2008facebook}.  For instance, the importance of avatar creation, for self identification in games, has been discussed \cite{waggoner2009my,trepte2010avatar}.  The objects created from favourite media items in the process discussed in this report, the like-cubes, can be viewed as abstract avatars, portraying both a visual and a mental image of their creators \cite{trepte2010avatar}.
 
-%Is it interesting and enjoyable to engage in online play with the social media items we have liked?  Would it be perceived as interesting to create toys from our liked media content, usable for play, games and self expression?   Would it be helpful in expressing who we really are, or who we want to be \cite{przybylski2012ideal}\todo{ref}?  Can it lead to self introspection, when given the chance to select from our likes, those that best describe our persona?  
+\todo{pick some of the commented out stuff}%Is it interesting and enjoyable to engage in online play with the social media items we have liked?  Would it be perceived as interesting to create toys from our liked media content, usable for play, games and self expression?   Would it be helpful in expressing who we really are, or who we want to be \cite{przybylski2012ideal}\todo{ref}?  Can it lead to self introspection, when given the chance to select from our likes, those that best describe our persona?  
 %Is it a welcome aid in self expression, to have access to playful facilities for finding the items that best describe one's personality?
-%Will it help define our real life identity?  Could it assist the formation of relationships \cite{vitak2008facebook}, when the self expression enabled by this kind of play would lead to mutual identification \cite{kimmel1966game}\todo{ref} among players?
+%Will it help define our real life identity?  Could it assist the formation of relationships \cite{vitak2008facebook}, when the self expression enabled by this kind of play would lead to mutual identification \cite{kimmel1966game}\todo{ref} among players?	
 
-Like Breeder is intended to aid people in profiling themselves with the media items from their personal collections.  Media sites hosting those collections may benefit from profiling users based on that data, and effort has been made in that regard, utilizing tags associated with media items \cite{guy2010social,hung2008tag}.  A significant difference presented, with the project discussed here, is that of taking steps towards placing that profiling power in the hands of the owners of the data themselves, the individual social media users.
+\todo{[need to massage this into one of the paragraphs -->]} Effort has been made to explore ways of linking people through the tags of media items they interact with \cite{guy2010social,hung2008tag}.  
 
 Whereas this project is inspired by previous works on content generation with Interactive Evolutionary Computation (IEC) \cite{cardamone2011interactive,togelius2007towards,secretan2011picbreeder}, it may be viewed as novel in its use of social media items to generate content items for use in play, possibly connecting and joining their creators around common interests.\todo{couple toys to photos on cups/calendar services}
 
@@ -141,6 +141,7 @@ Elements in the genes of children could be copied directly from the parents or b
 
 
 \subsection{Simplification resulting in a deviation from traditional genetic evolution}
+\label{sec:Simplification}
 After receiving feedback from a potential user of the breeding system, that was not involved in the project implementation, concerning the complexity of digesting multiple sets of media items at a time from one population, a decision was taken to simplify the user interface.  In an effort to lessen user fatigue, the interface was redesigned to show only one set of media items at each evolution step.  That simplified version resembles slot machines or bandits and that familiarity can be considered as an asset.  The resemblance stems especially from the change of interaction, from applying ratings to item sets to that of holding the preferred items in each given set and rolling the rest to evolve the next generation (Figure~\ref{fig:likeBreeder}).
 
 \begin{figure}[htp]
@@ -156,7 +157,6 @@ If one was to try anyway, arranging the population into 6 clusters and picking a
 
 The Jaccard Index can not be used for clustering because it operates on sets. The mean of multiple sets does not make sense because Membership of a set is binary in nature. This means that a mean would either be the union or the intersection between all its members which in both cases will lead to low similarity between any individual and any cluster.
 The Euclidean distance is also a bad similarity measure because we are operating on sets. As explained below an item with a large amount of tags would be far away from most other items simply because the union of tags will be large.
-\todo{Explain how segmenting the search space would require Euclid which sucks. Unpossible to select small set of pop that adequately represents entire pop - because Euclid sucks}
 
 \subsubsection{Measuring Similarity}
 \label{sec:sim}
@@ -171,20 +171,12 @@ Euclidean distance favors small sets. This can be seen from the following exampl
 As it turns out the Euclidean distance can expressed through the Jaccard index and the size of the union. The Euclidean distance can be simplified to $d(A,B) = \sqrt{|(A \cup B) \backslash (A \cap B)|} = \sqrt{|A \cup B| - |A \cap B|}$. From \autoref{eq:jaccard} we get that $|A \cap B| = J(A,B) \cdot |A \cup B|$ so the Euclidean distance is $d(A,B) = \sqrt{(1 - J(A,B)) \cdot |A \cup B|}$.\\
 Since the union of A and B will be larger for images with many tags using the Euclidean distance will be an unfair measure.
 
-
-\subsection{Algorithm classification according to a PCG taxonomy}
-
-According to a taxonomy of PCG \cite{togelius2014introduction}, our algorithm can be considered as
-\begin{itemize}
-	\item online, rather that offline, as it relies on a users interaction in an evolutionary process
-	\item necessary, rather than optional, as this is the primary means of generating the play items under consideration
-	\item having a varying degree of control:  The user can choose to get presented with random items, and she can choose to hold some of them, and thereby influence the choice of the remaining items, as discussed in section \ref{sec:AlgorithmDesign}
-	\item adaptive rather than generic:  The displayed content is a direct result of the user actions
-	\item stochastic rather than deterministic:  Even though the user has some influence on what kind of content is displayed, he does not have a direct control over the order in which items appear
-	\item generate-and-test rather than constructive:  The user goes through loops of rolling the media items, holding those preferred, until a preferable result is generated
-	\item mixed authorship rather than automatic generation:  A user and a potential player is highly involved in the process of assembling the item sets for decorating like-cubes.
-\end{itemize}
-
+\subsection{Algorithm Design}
+\label{sec:AlgorithmDesign}
+Initially the user is presented with items chosen at random. From there on out and iterative process is repeated until a set has been completed and the user decides to save it.
+An item is in one of four states: Not shown, neutral, find similar and held.\\
+The user can choose to hold an item, or to replace and item with a similar one. To swap all unheld items the user then presses a button. If the user has requested a similar item, the item will be replaced by the best available match. If one or more items are held every neutral item has a 50\% chance of being replaced with a similar item and a 50\% chance of being replaced with a random item.\\
+The reason why neutral item has a chance to be replaced at random is that we wish to keep as much of the entire dataset in contention as possible. This, along with the fact that we could not find a proper way of partitioning the search space, is why we are always searching the entire set of media items.
 
 \subsection{Suitable platforms}
 
@@ -192,8 +184,7 @@ Games played with social media items, such as the examples discussed in this rep
 
 To join people together, who are in the same place at the same time, in play with media items, a console gaming experience could be implemented for a web enabled device such as Chromecast \cite{ChromecastGames}, where players are joined in front of a common television screen, with game controls implemented for their mobile devices.  This would be more difficult to achieve on traditional living-room game consoles, such as the PlayStation, which do not not speak the language of the web naturally.
 
-
-
+\todo[color=red]{T A X O N O M Y !}
 \begin{framed}
 How does your algorithm work? Describe in as much detail as you can fit into the report. Classify your algorithm according to the taxonomy in the “Search-based Procedural Content Generation” paper. Also, how did you interface it to the game?
 \end{framed}
